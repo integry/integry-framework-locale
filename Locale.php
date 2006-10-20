@@ -37,6 +37,15 @@ class Locale
 	}
 	
 	/**
+	 * Returns locale code
+	 * @return String
+	 */
+	public function getLocaleCode() 
+	{	  
+	  	return $this->localeCode;
+	}
+
+	/**
 	 * Gets locale, which is defined as current {@see Locale::setCurrentLocale}
 	 * @return Locale
 	 */
@@ -51,7 +60,7 @@ class Locale
 	 */
 	public static function getInstance($localeCode) 
 	{	  			
-	  	if(empty(self::$instanceMap[$localeCode])) 
+	  	if(!isset(self::$instanceMap[$localeCode])) 
 		{	  	
 		  	$instance = self::createInstance($localeCode);  	  	
 		  	if (!$instance)
@@ -99,10 +108,11 @@ class Locale
 		$translationManager = LCInterfaceTranslationManager::create($localeCode);
 		if (!$translationManager)
 		{
-		  	return false;
+			return false;
 		}
 		
 		$instance = new Locale($localeCode);
+
 		$instance->setTranslationManager($translationManager);
 		
 		return $instance;	
@@ -114,7 +124,7 @@ class Locale
 	 */	
 	private function setTranslationManager(LCInterfaceTranslationManager $manager)
 	{
-	 	$this->translationManagerInstance = new LCInterfaceTranslationManager($this->localeCode);
+	 	$this->translationManagerInstance = $manager;
 	 	$this->translatorInstance = new LCInterfaceTranslator($this->localeCode, $this->translationManagerInstance);  
 	}
 }

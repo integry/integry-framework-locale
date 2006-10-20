@@ -35,6 +35,7 @@ class LCInterfaceTranslator
 	public function translate($key) 
 	{	 
 		$def = $this->translationManager->getDefinition($key);
+
 		if (FALSE !== $def)
 		{
 		  	return $def;
@@ -52,6 +53,7 @@ class LCInterfaceTranslator
 	public function makeText($key, $params) 
 	{	  	  		  
 		$def = $this->translationManager->getDefinition($key);
+		if ($def)
 		{			
 			$lh = $this->getLocaleMakeTextInstance();
 			$list = array();
