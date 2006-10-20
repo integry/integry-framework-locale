@@ -24,7 +24,7 @@ class LCInterfaceTranslationManager
 	
 	public static function create($localeCode)
 	{
-		$definitions = self::getDefinitions($localeCode);
+		$definitions = self::getTranslatedDefinitions($localeCode);
 		
 		// no definitions defined for this locale, so the translation manager cannot be created
 		if (!$definitions)
