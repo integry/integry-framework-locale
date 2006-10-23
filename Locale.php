@@ -1,6 +1,6 @@
 <?php
 
-class Locale
+class Locale implements LCiTranslator
 {
 	const value = 'v';
   	const file = 'f';
@@ -96,6 +96,27 @@ class Locale
 	public function translator()
 	{
 	  	return $this->translatorInstance;
+	}
+
+	/**
+	 * Translates text using LCInterfaceTranslator
+	 * @param string $key
+	 * @return string
+	 */
+	public function translate($key) 
+	{
+		return $this->translatorInstance->translate($key);
+	}	
+
+	/**
+	 * Performs MakeText translation using LCInterfaceTranslator
+	 * @param string $key
+	 * @param array $params
+	 * @return string
+	 */
+	public function makeText($key, $params) 
+	{	  	  		  
+		return $this->translatorInstance->makeText($key, $params);
 	}
 
 	/**

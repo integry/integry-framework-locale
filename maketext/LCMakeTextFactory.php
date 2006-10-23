@@ -2,6 +2,8 @@
 
 /**
  * Creates a MakeText translation handler instance for required locale
+ *
+ * @return LocaleMaketext
  * @author Rinalds Uzkalns <rinalds@integry.net>
  * @package locale.maketext
  */
@@ -15,7 +17,7 @@ class LCMakeTextFactory
     {    
       	$classname = 'LCMakeText_' . strtolower($locale);
 		$classfile = dirname(__FILE__) . '/' . $classname . '.php';
-		
+
 	  	if (file_exists($classfile)) 
 		{
 		 	require_once($classfile);
@@ -23,8 +25,11 @@ class LCMakeTextFactory
 		}
 		else
 		{
-		  	return false;
+		  	require_once('LocaleMaketext.php');
+		  	$instance = new LocaleMaketext;
 		}
+		
+		return $instance;
     }
 } 
 ?>

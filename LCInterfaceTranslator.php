@@ -1,6 +1,6 @@
 <?php
 
-class LCInterfaceTranslator
+class LCInterfaceTranslator implements LCiTranslator
 {
 	/**
 	 * Locale_MakeText handler instance for the particular locale
@@ -48,6 +48,9 @@ class LCInterfaceTranslator
 	
 	/**
 	 * Performs MakeText translation
+	 * @param string $key
+	 * @param array $params
+	 * @return string
 	 * @todo document its working principles and probably refactor as well
 	 */
 	public function makeText($key, $params) 
@@ -78,6 +81,7 @@ class LCInterfaceTranslator
 		{
 			require_once('maketext/LCMakeTextFactory.php');
 			$inst = LCMakeTextFactory::create($this->localeCode);
+
 			if ($inst)
 			{
 			  	$this->makeTextInstance = $inst;
