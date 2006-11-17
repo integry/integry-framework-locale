@@ -165,17 +165,6 @@ class LCInterfaceTranslationManager
 	}
 	
 	/**
-	 * Save definitions to database
-	 * @todo delegate to a separate strategy class - as this data can be stored in file/shared memory/etc as well
-	 */	
-	public function saveDefinitions($defs)
-	{
-		$defInst = ActiveRecord::getInstanceById("InterfaceTranslation", $this->localeCode, true, true);
-		$defInst->interfaceData->set(serialize($defs));
-		$defInst->save();	  		  
-	}
-	
-	/**
 	 * Gets all translations.
 	 * @return array
 	 * @todo strtolower
@@ -215,6 +204,12 @@ class LCInterfaceTranslationManager
 			{
 				$files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
 			}
+		}
+
+		// fix backslashes
+		foreach ($files as $key => $value)
+		{
+		  	$files[$key] = str_replace(chr(92), '/', $value);
 		}
 
 	 	return $files; 	
@@ -320,7 +315,15 @@ class LCInterfaceTranslationManager
 		}
 	}
 	
-	
+	/**
+	 * Appends language definitions from cached file
+	 * @param string $langFile Relative file path (e.g. - en/Base)
+	 */
+	public function loadCachedFile($langFile)
+	{
+		$this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
+	}
+		
 	private function updateCacheFile($file)
 	{
 		$defFile = self::$defFileDir . $file;
@@ -393,15 +396,6 @@ class LCInterfaceTranslationManager
 		{
 			return true;  
 		}
-	}
-
-	/**
-	 * Appends language definitions from cached file
-	 * @param string $langFile Relative file path (e.g. - en/Base)
-	 */
-	private function loadCachedFile($langFile)
-	{
-		$this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
 	}
 
 	/**
