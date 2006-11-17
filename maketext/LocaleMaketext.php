@@ -26,11 +26,6 @@
  */
 
 /**
- * Requires PEAR
- */
-require_once('PEAR.php');
-
-/**
  * Error constant indicating a Maketext compile error
  *
  * @access  public
@@ -46,7 +41,7 @@ define('LOCALE_MAKETEXT_ERROR_COMPILE', 10);
  * @package  Locale_Maketext
  * @access   public
  */
-class LocaleMaketext extends PEAR {
+class LocaleMaketext {
 
     # --------------------------------------------------------------------
     # Member variables
@@ -103,7 +98,7 @@ class LocaleMaketext extends PEAR {
      */
     function __construct()
     {
-        $this->PEAR();
+//        $this->PEAR();
     }
 
     /**
@@ -195,20 +190,20 @@ class LocaleMaketext extends PEAR {
 
         # If we got a PEAR_Error, return it
         #
-        if ($this->isError($msg)) {
+/*        if ($this->isError($msg)) {
             return $msg;
         }
-
+*/
         # get message function, may _compile()
         #
         $func = $this->get_msg_func($msg);
 
         # If we got a PEAR_Error, return it
         #
-        if ($this->isError($func)) {
+/*        if ($this->isError($func)) {
             return $func;
         }
-
+*/
         # process message function
         #
         return $func($this, $params);
