@@ -58,7 +58,9 @@ class LCInterfaceTranslationManager
 		{
 		  	return false;
 		}
+
 		$this->definitions = array_merge($this->definitions, $definitions);	  
+		return true;
 	}
 	
 	/**
@@ -321,7 +323,7 @@ class LCInterfaceTranslationManager
 	 */
 	public function loadCachedFile($langFile)
 	{
-		$this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
+		return $this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
 	}
 		
 	private function updateCacheFile($file)
