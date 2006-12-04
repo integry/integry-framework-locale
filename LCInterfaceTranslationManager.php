@@ -13,6 +13,11 @@ class LCInterfaceTranslationManager
 	private $definitions = array();  	
 
 	/**
+	 * Definition key => File name mapping
+	 */
+	private $definitionValueFileMap = array();  	
+
+	/**
 	 * Definition file storage directory
 	 */
 	private static $defFileDir;
@@ -28,23 +33,8 @@ class LCInterfaceTranslationManager
 	}
 	
 	public static function create($localeCode)
-	{
-		/*
-		try 
-		{
-			$definitions = self::getTranslatedDefinitions($localeCode);	
-		} 
-		catch (Exception $ex) 
-		{
-			// no definitions defined for this locale, so the translation manager cannot be created
-			return false;
-		}
-		*/
-				
-		$instance =& new self($localeCode);
-		//$instance->setDefinitions($definitions);
-
-		return $instance;			
+	{		
+		 return new self($localeCode);
 	}  
 	
 	public function setDefinitions($definitions)
@@ -309,6 +299,9 @@ class LCInterfaceTranslationManager
 		if ($filePath && file_exists($filePath))
 		{				
 			include $filePath;
+			
+			$this->definitionValueFileMap[$this->getRelCachePath($filePath)] = $languageDefs;
+			
 			return $languageDefs;	
 		} 
 		else 
@@ -326,6 +319,27 @@ class LCInterfaceTranslationManager
 		return $this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
 	}
 		
+	/**
+	 * Returns relative language file path
+	 * @param string $langFile Full language file path
+	 * @return string Relative file path
+	private function getRelativePath($langFile)
+	{
+		$path = substr($langFile, strlen(self::$defFileDir));
+		return $path;
+	}
+	 */
+	 
+	/**
+	 * Returns relative language file path by cache file path
+	 * @param string $langFile Full cache file path
+	 * @return string Relative file path
+	 */
+	private function getRelCachePath($langFile)
+	{
+		return substr($langFile, strlen(self::$cacheFileDir) + 3, -4);		
+	}			    	
+
 	private function updateCacheFile($file)
 	{
 		$defFile = self::$defFileDir . $file;
@@ -384,6 +398,64 @@ class LCInterfaceTranslationManager
 	}
 	
 	/**
+	 * Return a single translation value by file name and translation key
+	 * @param string $langFile File path
+	 * @param string $key Translation key
+	 * @return string Translation value
+	 */
+	public function getValue($langFile, $key)
+	{
+		// load language file
+		if (!isset($this->definitionValueFileMap[$langFile]))
+		{			
+			$this->loadCachedFile($this->localeCode . '/' . $langFile);  
+		}
+
+		if (isset($this->definitionValueFileMap[$langFile]) && isset($this->definitionValueFileMap[$langFile][$key]))
+		{
+		  	return $this->definitionValueFileMap[$langFile][$key];
+		}  
+	}
+	
+	/**
+	 * Update a single translation value by file name and translation key
+	 * @param string $langFile Relative file path (without locale code)
+	 * @param string $key Translation key
+	 * @param string $value Translation value
+	 * @return bool Status 
+	 */
+	public function updateValue($langFile, $key, $value)
+	{
+		if (!isset($this->definitionValueFileMap[$langFile]) || !isset($this->definitionValueFileMap[$langFile][$key]))
+		{
+		  	return false;
+		}
+
+		$this->definitionValueFileMap[$langFile][$key] = $value;	  
+		$langFilePath = $this->localeCode . '/' . $langFile;
+		$this->saveCacheData($langFilePath, $this->definitionValueFileMap[$langFile]);
+		return true;
+	}
+
+	/**
+	 * Determine which file the particular definition key belongs to
+	 * @param string $key Translation key
+	 * @param string $value Translation key
+	 * @return string File path
+	 */
+	public function getFileByDefKey($key, $value = '')
+	{
+		foreach ($this->definitionValueFileMap as $file => $values)
+		{
+		  	if (isset($values[$key]) && (('' == $value) || ($values[$key] == $value)))
+		  	{
+				return $file;
+			}
+		}
+		return false;	  
+	}
+
+	/**
 	 * Determines if the language file has been cached already
 	 * @param string $langFile File path
 	 * @return bool Status
@@ -403,7 +475,7 @@ class LCInterfaceTranslationManager
 	/**
 	 * Returns full language file path
 	 * @param string $langFile Relative language file path
-	 * @return bool Status
+	 * @return string File path
 	 */
 	private function getLangFilePath($langFile)
 	{
