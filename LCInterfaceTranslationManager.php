@@ -301,7 +301,7 @@ class LCInterfaceTranslationManager
 			include $filePath;
 
 			$relPath = $this->getRelCachePath($filePath);
-			if (!is_array($this->definitionValueFileMap[$relPath]))
+			if (!isset($this->definitionValueFileMap[$relPath]))
 			{
 			  	$this->definitionValueFileMap[$relPath] = array();
 			}				
