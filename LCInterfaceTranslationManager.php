@@ -285,7 +285,7 @@ class LCInterfaceTranslationManager
 	 * @return array Definitions
 	 */
 	public function getCacheDefs($filePath, $relativePath = false)
-	{
+	{		
 		if ($relativePath)
 		{
 		  	$filePath = self::$cacheFileDir . $this->localeCode . '/' . $filePath;
@@ -299,8 +299,14 @@ class LCInterfaceTranslationManager
 		if ($filePath && file_exists($filePath))
 		{				
 			include $filePath;
-			
-			$this->definitionValueFileMap[$this->getRelCachePath($filePath)] = $languageDefs;
+
+			$relPath = $this->getRelCachePath($filePath);
+			if (!is_array($this->definitionValueFileMap[$relPath]))
+			{
+			  	$this->definitionValueFileMap[$relPath] = array();
+			}				
+
+			$this->definitionValueFileMap[$relPath][] = $languageDefs;
 			
 			return $languageDefs;	
 		} 
@@ -411,9 +417,11 @@ class LCInterfaceTranslationManager
 			$this->loadCachedFile($this->localeCode . '/' . $langFile);  
 		}
 
-		if (isset($this->definitionValueFileMap[$langFile]) && isset($this->definitionValueFileMap[$langFile][$key]))
+		$fileIndex = count($this->definitionValueFileMap[$langFile]) - 1;
+
+		if (isset($this->definitionValueFileMap[$langFile]) && isset($this->definitionValueFileMap[$langFile][$fileIndex][$key]))
 		{
-		  	return $this->definitionValueFileMap[$langFile][$key];
+		  	return $this->definitionValueFileMap[$langFile][$fileIndex][$key];
 		}  
 	}
 	
@@ -426,14 +434,29 @@ class LCInterfaceTranslationManager
 	 */
 	public function updateValue($langFile, $key, $value)
 	{
-		if (!isset($this->definitionValueFileMap[$langFile]) || !isset($this->definitionValueFileMap[$langFile][$key]))
+		if (!isset($this->definitionValueFileMap[$langFile]))
 		{
 		  	return false;
 		}
 
-		$this->definitionValueFileMap[$langFile][$key] = $value;	  
+		$found = null;
+
+		foreach ($this->definitionValueFileMap[$langFile] as $index => $file)
+		{
+			if (isset($file[$key]))
+			{
+			  	$found = $index;		  	
+			}
+		}
+		
+		if (null === $found)
+		{
+		  	return false;
+		}		
+		
+		$this->definitionValueFileMap[$langFile][$index][$key] = $value;	  
 		$langFilePath = $this->localeCode . '/' . $langFile;
-		$this->saveCacheData($langFilePath, $this->definitionValueFileMap[$langFile]);
+		$this->saveCacheData($langFilePath, $this->definitionValueFileMap[$langFile][$index]);
 		return true;
 	}
 
@@ -445,13 +468,29 @@ class LCInterfaceTranslationManager
 	 */
 	public function getFileByDefKey($key, $value = '')
 	{
-		foreach ($this->definitionValueFileMap as $file => $values)
+		$resFile = '';
+//		print_r($this->definitionValueFileMap);exit;
+		foreach ($this->definitionValueFileMap as $file => $files)
 		{
-		  	if (isset($values[$key]) && (('' == $value) || ($values[$key] == $value)))
-		  	{
-				return $file;
+			foreach ($files as $values)
+			{
+			  	// find exactly matching key/value pairs
+				if (isset($values[$key]) && (('' == $value) || ($values[$key] == $value)))
+			  	{
+					return $file;
+				}
+				elseif (isset($values[$key]))
+				{
+				  	$resFile = $file;
+				}
 			}
 		}
+		
+		if ('' != $resFile)
+		{
+			return $resFile;  	
+		}
+		
 		return false;	  
 	}
 
