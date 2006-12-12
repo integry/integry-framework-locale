@@ -22,6 +22,11 @@ class LCLocaleInfo
 	 */	
 	private $currencyInstance;
 	
+	/**
+	 * Language original names (ex: lietuviu, Deutsch, eesti)
+	 */	
+	private $originalNames = false;
+	
 	public function __construct($localeCode)
 	{
 		$this->localeCode = $localeCode;  	
@@ -65,6 +70,26 @@ class LCLocaleInfo
 	  	return $this->getLanguageInstance()->getName($code);
 	}
 	
+	/**
+	 * Gets language name in its language by code
+	 * ex: "lt" will always return "Lietuviu" regardless of the current locale
+	 * $param string $code
+	 * @return string
+	 */
+	public function getOriginalLanguageName($code) 
+	{	  	  	
+	  	if (!$this->originalNames)
+	  	{
+			include 'I18Nv2/Language/original.php';
+			$this->originalNames = $names;
+		}
+		
+		if (isset($this->originalNames[$code]))
+		{
+		  	return $this->originalNames[$code];
+		}
+	}
+
 	/**
 	 * Gets array of currency names.
 	 * @return array
