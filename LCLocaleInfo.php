@@ -80,7 +80,7 @@ class LCLocaleInfo
 	{	  	  	
 	  	if (!$this->originalNames)
 	  	{
-			include 'I18Nv2/Language/original.php';
+			include dirname(__file__).'/../I18Nv2/Language/original.php';
 			$this->originalNames = $names;
 		}
 		
