@@ -162,6 +162,30 @@ class LCLocaleInfo
 	{
 		if (!$this->dateFormats)
 		{
+
+			if (!defined('I18Nv2_DATETIME_SHORT'))
+			{
+				/**#@+ Constants **/
+				define('I18Nv2_NUMBER',                     'number');
+				define('I18Nv2_CURRENCY',                   'currency');
+				define('I18Nv2_DATE',                       'date');
+				define('I18Nv2_TIME',                       'time');
+				define('I18Nv2_DATETIME',                   'datetime');
+				
+				define('I18Nv2_NUMBER_FLOAT' ,              'float');
+				define('I18Nv2_NUMBER_INTEGER' ,            'integer');
+				
+				define('I18Nv2_CURRENCY_LOCAL',             'local');
+				define('I18Nv2_CURRENCY_INTERNATIONAL',     'international');
+				
+				define('I18Nv2_DATETIME_SHORT',             'short');
+				define('I18Nv2_DATETIME_DEFAULT',           'default');
+				define('I18Nv2_DATETIME_MEDIUM',            'medium');
+				define('I18Nv2_DATETIME_LONG',              'long');
+				define('I18Nv2_DATETIME_FULL',              'full');
+				/**#@-*/
+			}			
+			
 			include dirname(__file__) . '/../I18Nv2/Locale/en.php';
 			$file = dirname(__file__) . '/../I18Nv2/Locale/' . $this->localeCode . '.php';
 			if (file_exists($file))
