@@ -129,7 +129,7 @@ class LCLocaleInfo
 		$this->loadLocaleData();
 		if (isset($this->timeFormats[$format]))
 		{
-			return $this->timeFormats[$const];
+			return $this->timeFormats[$format];
 		} 
 		else
 		{
@@ -147,7 +147,7 @@ class LCLocaleInfo
 		$this->loadLocaleData();	  	
 		if (isset($this->dateFormats[$format]))
 		{
-			return $this->dateFormats[$const];
+			return $this->dateFormats[$format];
 		} 
 		else
 		{
