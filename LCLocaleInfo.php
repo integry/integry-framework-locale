@@ -8,6 +8,16 @@ class LCLocaleInfo
 	private $localeCode;
 	
 	/**
+	 * Date format array
+	 */	
+	private $dateFormats;
+	
+	/**
+	 * Time format array
+	 */	
+	private $timeFormats;	
+		
+	/**
 	 * Country data handler instance
 	 */	
 	private $countryInstance;
@@ -108,6 +118,62 @@ class LCLocaleInfo
 	{	  
 		return $this->getCurrencyInstance()->getName($code);
 	}  	  
+	
+	/**
+	 * Returns time format for current locale
+	 * @param string $format (ex: default, short, medium, long, full)
+	 * $return string Time format (ex: %H:%M:%S)
+	 */	 
+	public function getTimeFormat($format = 'default')
+	{
+		$this->loadLocaleData();
+		$const = $this->getI18nConstName($format);
+		return $this->timeFormats[$const];
+	}
+	
+	/**
+	 * Returns date format for current locale
+	 * @param string $format (ex: default, short, medium, long, full)
+	 * $return string Date format (ex: %d-%b-%Y)
+	 */	 
+	public function getDateFormat($format = 'default')
+	{
+		$this->loadLocaleData();	  	
+		$const = $this->getI18nConstName($format);
+		return $this->dateFormats[$const];
+	}
+
+	/**
+	 * Returns I18Nv2 library constant name for required time/date format
+	 * @param string $format (ex: default, short, medium, long, full)
+	 * $return string (ex: I18Nv2_DATETIME_DEFAULT)
+	 */	 
+	private function getI18nConstName($format)
+	{
+		$constName = 'I18Nv2_DATETIME_' . strtoupper($format);
+		if (!defined($constName))
+		{
+		  	$constName = 'I18Nv2_DATETIME_DEFAULT';
+		}
+		
+		return $constName;	  
+	}
+	
+	/**
+	 * Loads locale data file (time, date formats)
+	 */	 
+	private function loadLocaleData()
+	{
+		if (!$this->dateFormats)
+		{
+			include dirname(__file__) . '/../I18Nv2/Locale/en.php';
+			$file = dirname(__file__) . '/../I18Nv2/Locale/' . $this->localeCode . '.php';
+			if (file_exists($file))
+			{
+				include $file;
+			}  	
+		}	  		
+	}	
 	
 	/**
 	 * Returns language data handler instance
