@@ -127,8 +127,14 @@ class LCLocaleInfo
 	public function getTimeFormat($format = 'default')
 	{
 		$this->loadLocaleData();
-		$const = $this->getI18nConstName($format);
-		return $this->timeFormats[$const];
+		if (isset($this->timeFormats[$format]))
+		{
+			return $this->timeFormats[$const];
+		} 
+		else
+		{
+			return $this->timeFormats['default'];		  
+		}
 	}
 	
 	/**
@@ -139,24 +145,14 @@ class LCLocaleInfo
 	public function getDateFormat($format = 'default')
 	{
 		$this->loadLocaleData();	  	
-		$const = $this->getI18nConstName($format);
-		return $this->dateFormats[$const];
-	}
-
-	/**
-	 * Returns I18Nv2 library constant name for required time/date format
-	 * @param string $format (ex: default, short, medium, long, full)
-	 * $return string (ex: I18Nv2_DATETIME_DEFAULT)
-	 */	 
-	private function getI18nConstName($format)
-	{
-		$constName = 'I18Nv2_DATETIME_' . strtoupper($format);
-		if (!defined($constName))
+		if (isset($this->dateFormats[$format]))
 		{
-		  	$constName = 'I18Nv2_DATETIME_DEFAULT';
+			return $this->dateFormats[$const];
+		} 
+		else
+		{
+			return $this->dateFormats['default'];		  
 		}
-		
-		return $constName;	  
 	}
 	
 	/**
