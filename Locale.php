@@ -76,6 +76,8 @@ class Locale
 
 	/**
 	 * Returns LCLocaleInfo instance
+	 * 
+	 * @return LCLocaleInfo
 	 */
 	public function info()
 	{
