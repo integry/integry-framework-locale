@@ -20,7 +20,7 @@
  * @category    Internationalization
  */
 
-require_once 'I18Nv2/CommonList.php';
+require_once 'CommonList.php';
 
 /**
  * I18Nv2_Language
@@ -42,8 +42,16 @@ class I18Nv2_Language extends I18Nv2_CommonList
      * @param   string  $language
      */
     function loadLanguage($language)
-    {
-        return @include 'I18Nv2/Language/' . $language . '.php';
+    {        
+		$langFile = dirname(__file__) . '/Language/' . $language . '.php';
+		if (file_exists($file))
+		{
+			return include $file;  
+		} 
+		else
+		{
+		  	include 'Language/en.php';
+		}
     }
 
     /**
