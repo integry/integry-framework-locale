@@ -44,9 +44,9 @@ class I18Nv2_Language extends I18Nv2_CommonList
     function loadLanguage($language)
     {        
 		$langFile = dirname(__file__) . '/Language/' . $language . '.php';
-		if (file_exists($file))
+		if (file_exists($langFile))
 		{
-			return include $file;  
+			return include $langFile;  
 		} 
 		else
 		{
