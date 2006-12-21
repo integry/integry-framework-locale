@@ -1,5 +1,8 @@
 <?php
 
+ClassLoader::import('library.*');
+ClassLoader::import('library.I18Nv2.*');
+
 class Locale
 {
 	const value = 'v';

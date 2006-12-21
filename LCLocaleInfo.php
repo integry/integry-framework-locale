@@ -98,6 +98,10 @@ class LCLocaleInfo
 		{
 		  	return $this->originalNames[$code];
 		}
+		else
+		{
+		  	return $this->getLanguageName($code);
+		}
 	}
 
 	/**
@@ -203,7 +207,7 @@ class LCLocaleInfo
 	  
 	  	if (!$this->languageInstance) 
 		{	  	  
-	  	 	require_once('I18Nv2/Language.php');
+	  	 	require_once('Language.php');
 			$this->languageInstance = new I18Nv2_Language($this->localeCode);		    
 		}
 		
