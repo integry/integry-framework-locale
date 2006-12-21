@@ -397,7 +397,7 @@ class LCInterfaceTranslationManager
 			$dir = dirname($path);
 			$dir = str_replace(chr(92), '/', $dir);
 			$dir = str_replace('/', DIRECTORY_SEPARATOR, $dir);
-			mkdir($dir, 0, true);
+			mkdir($dir, 0777, true);
 		}
 		
 		file_put_contents($path, $dump);				  		  
