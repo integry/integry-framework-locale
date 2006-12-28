@@ -274,7 +274,7 @@ class LocaleMaketext {
             return ($num == 1) ? $forms[0] : $forms [1];
         }
     }
-
+function boo($args) { print_r($args); exit;}
     /**
      * message processing function. Uses sprintf to embed quantifier in
      * chosen argument.
@@ -306,6 +306,7 @@ class LocaleMaketext {
      * create_function()
      *
      * @access private
+     * @todo Clean up this mess (get rid of anonymous functions)
      */
     function _compile ($msg)
     {
@@ -334,7 +335,7 @@ class LocaleMaketext {
                     # Add preceding literal to code, if any
                     #
                     if ($chunk) {
-                        $code[] = ".'".$chunk."'";
+                        $code[] = ".'".addslashes($chunk)."'";
                         $chunk = '';
                     }
                 }
@@ -426,8 +427,8 @@ class LocaleMaketext {
             }
         }
         $code[] = ';';
-        //$func_code = implode($code, "\n");
-        //echo "FUNCTION:\n$func_code\n";        
+//        $func_code = nl2br(htmlspecialchars(implode($code, "\n")));
+//        ob_clean();echo "FUNCTION:\n$func_code\n";  exit;
         return create_function('&$locale, $args', implode($code, "\n"));        
     }
 	
