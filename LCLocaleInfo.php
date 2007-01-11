@@ -110,7 +110,9 @@ class LCLocaleInfo
 	 */
 	public function getAllCurrencies() 
 	{	  
-	  	return $this->getCurrencyInstance()->getAllCodes();	
+		include dirname(__file__).'/../I18Nv2/Currency/activeCurrencies.php';
+	  	$currencyCodes = $this->getCurrencyInstance()->getAllCodes();
+	  	return array_intersect_key($currencyCodes, $activeCurrencies);
 	}
 	
 	/**
