@@ -26,7 +26,8 @@ class Locale
 	 */
 	private function __construct($localeCode)  
   	{
-	 	$this->localeCode = $localeCode;
+	 	include_once('LCLocaleInfo.php');
+		$this->localeCode = $localeCode;
 		$this->localeInfoInstance = new LCLocaleInfo($localeCode);
 	}
 	
@@ -110,6 +111,7 @@ class Locale
 	private static function createInstance($localeCode) 
 	{		
 		// verify that such locale exists
+		include_once('LCInterfaceTranslationManager.php');
 		$translationManager = LCInterfaceTranslationManager::create($localeCode);
 		if (!$translationManager)
 		{
@@ -129,6 +131,7 @@ class Locale
 	 */	
 	private function setTranslationManager(LCInterfaceTranslationManager $manager)
 	{
+		include_once('LCInterfaceTranslator.php');
 	 	$this->translationManagerInstance = $manager;
 	 	$this->translatorInstance = new LCInterfaceTranslator($this->localeCode, $this->translationManagerInstance);  
 	}

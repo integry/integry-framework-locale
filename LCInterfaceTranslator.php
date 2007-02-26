@@ -1,5 +1,7 @@
 <?php
 
+include_once('LCiTranslator.php');
+
 class LCInterfaceTranslator implements LCiTranslator
 {
 	/**
