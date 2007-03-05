@@ -57,21 +57,16 @@ class LCInterfaceTranslator implements LCiTranslator
 	 */
 	public function makeText($key, $params) 
 	{	  	  		  
-		$def = $this->translationManager->getDefinition($key);
-		if ($def)
-		{			
-			$lh = $this->getLocaleMakeTextInstance();
-			$list = array();
-			$list[] = $this->translate($key);		
-						
-			$list = array_merge($list, split(",", $params));						
-			return call_user_func_array(array($lh, "_"), $list);
-		} 
-		else 
-		{
-		  	return $key;
-		}
-	}
+		$def = $this->translationManager->getDefinition($key)
+				or $def = $key;
+
+		$lh = $this->getLocaleMakeTextInstance();
+		$list = array();
+		$list[] = $this->translate($key);		
+					
+		$list = array_merge($list, split(",", $params));						
+		return call_user_func_array(array($lh, "_"), $list);
+	 }
 	
 	/**
 	 * Creates MakeText handler for current locale
