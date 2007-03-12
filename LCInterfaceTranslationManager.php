@@ -145,15 +145,7 @@ class LCInterfaceTranslationManager
 	 */
 	public function setCacheFileDir($dir)
 	{
-		if (!is_dir($dir))
-		{
-		  	return false;
-		}  	
-		else 
-		{
-		  	self::$cacheFileDir = realpath($dir) . '/'; 
-		  	return true;
-		}
+		self::$cacheFileDir = $dir . '/'; 
 	}
 	
 	/**
@@ -290,7 +282,7 @@ class LCInterfaceTranslationManager
 		{
 		  	$filePath = self::$cacheFileDir . $this->localeCode . '/' . $filePath;
 		}
-			
+
 		if ('.lng' == substr($filePath, -4))
 		{
 		  	$filePath = substr($filePath, 0, -4) . '.php';
@@ -324,17 +316,6 @@ class LCInterfaceTranslationManager
 	{
 		return $this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
 	}
-		
-	/**
-	 * Returns relative language file path
-	 * @param string $langFile Full language file path
-	 * @return string Relative file path
-	private function getRelativePath($langFile)
-	{
-		$path = substr($langFile, strlen(self::$defFileDir));
-		return $path;
-	}
-	 */
 	 
 	/**
 	 * Returns relative language file path by cache file path
@@ -397,6 +378,7 @@ class LCInterfaceTranslationManager
 			$dir = dirname($path);
 			$dir = str_replace(chr(92), '/', $dir);
 			$dir = str_replace('/', DIRECTORY_SEPARATOR, $dir);
+
 			mkdir($dir, 0777, true);
 		}
 		
@@ -469,7 +451,7 @@ class LCInterfaceTranslationManager
 	public function getFileByDefKey($key, $value = '')
 	{
 		$resFile = '';
-//		print_r($this->definitionValueFileMap);exit;
+
 		foreach ($this->definitionValueFileMap as $file => $files)
 		{
 			foreach ($files as $values)
@@ -544,7 +526,7 @@ class LCInterfaceTranslationManager
 		    return array();
 		}
 		
-		$dir = realpath($dir) . '/';
+		$dir = $dir . '/';
 		$files = array();
 		$iter = new DirectoryIterator($dir);
 	  	foreach ($iter as $value) 
