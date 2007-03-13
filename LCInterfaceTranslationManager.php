@@ -134,8 +134,17 @@ class LCInterfaceTranslationManager
 		else 
 		{
 		  	self::$defFileDir = realpath($dir) . '/';
-		  	return true;
+    	  	return true;
 		}
+	}	
+	
+	/**
+	 * Returns translation file directory
+	 * @return string Directory path
+	 */
+	public function getDefinitionFileDir()
+	{
+		return self::$defFileDir . $this->localeCode;
 	}	
 	
 	/**
@@ -170,9 +179,22 @@ class LCInterfaceTranslationManager
 	 * @param string $dir File directory
 	 * @return array List of files
 	 */
-	public function getDefinitionFiles($dir) 
+	public function getDefinitionFiles($dir = '') 
 	{	  
-	  	$dir = realpath($dir) . '/';
+	  	if (!$dir)
+	  	{
+            $dir = self::$defFileDir . $this->localeCode;
+        }
+          
+        $dir = realpath($dir);
+        
+        if (!$dir)
+        {
+            return array();
+        }        
+        
+        $dir .= '/';
+        
 		$files = array();
 
 		$iter = new DirectoryIterator($dir);
@@ -186,7 +208,7 @@ class LCInterfaceTranslationManager
 			}
 			else if($value->isDir() && ($name[0] != '.'))
 			{
-				$files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
+                $files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
 			}
 		}
 
@@ -299,11 +321,12 @@ class LCInterfaceTranslationManager
 			}				
 
 			$this->definitionValueFileMap[$relPath][] = $languageDefs;
-			
+
 			return $languageDefs;	
 		} 
 		else 
 		{
+
 		  	return array();
 		}
 	}
@@ -327,7 +350,7 @@ class LCInterfaceTranslationManager
 		return substr($langFile, strlen(self::$cacheFileDir) + 3, -4);		
 	}			    	
 
-	private function updateCacheFile($file)
+	public function updateCacheFile($file)
 	{
 		$defFile = self::$defFileDir . $file;
 		$cacheFile = substr($file, 0, -4) . '.php';
@@ -481,7 +504,7 @@ class LCInterfaceTranslationManager
 	 * @param string $langFile File path
 	 * @return bool Status
 	 */
-	private function isFileCached($langFile)
+	public function isFileCached($langFile)
 	{
 		$path = $this->getCachedFilePath($langFile); 
 		if (!file_exists($path))
@@ -511,7 +534,12 @@ class LCInterfaceTranslationManager
 	 */
 	private function getCachedFilePath($langFile)
 	{
-		return self::$cacheFileDir . $langFile . '.php';
+		if ('.php' == substr($langFile, -4))
+		{
+            $langFile = substr($langFile, 0, -4);
+        }
+        
+        return self::$cacheFileDir . $langFile . '.php';
 	}
 
 	/**
