@@ -54,7 +54,7 @@ class LCInterfaceTranslationManager
 	}
 	
 	/**
-	 * Returns a single definition value
+	 * Get all cached definitions
 	 * @param string $localeCode Locale code (E.g. - en, lt, ru)
 	 * @return array Definition values (returns false if the definition is not defined)
 	 */
@@ -286,6 +286,12 @@ class LCInterfaceTranslationManager
 			}
 		  	
 			$this->cacheFile($file);	  
+		}		
+		
+		// check if default translation file is newer than the cached file and update cached file
+		else if (filemtime($this->getLangFilePath($file)) > filemtime($this->getCachedFilePath($file)))
+		{
+			$this->updateCacheFile($file . '.lng');
 		}
 
 		$this->loadCachedFile($file);
