@@ -58,7 +58,9 @@ class LCLocaleInfo
 	 */
 	public function getAllCountries() 
 	{		  	
-	  	return $this->getCountryInstance()->getAllCodes();	
+	  	$countries = $this->getCountryInstance()->getAllCodes();
+	  	asort($countries);
+		return $countries;	
 	}
 	
 	/**
