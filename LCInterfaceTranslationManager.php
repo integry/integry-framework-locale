@@ -266,7 +266,17 @@ class LCInterfaceTranslationManager
 	 */
     public function loadFile($file, $english = false)
     {
-	  	// load English definitions first
+	  	// check if there are no additional definition files
+	  	$addDir = self::$defFileDir . 'en/' . $file;
+        $additional = $this->getDefinitionFiles($addDir);
+        foreach ($additional as $addnFile)
+        {
+            $addnFile = substr($addnFile, strlen(self::$defFileDir . 'en/'));
+            $addnFile = substr($addnFile, 0, -4);
+            $this->loadFile($addnFile, false);
+        }
+        
+        // load English definitions first
 	  	if (!$english && ('en' != $this->localeCode))
 	  	{
 			$this->loadFile($file, true);    
