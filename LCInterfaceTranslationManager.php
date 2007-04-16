@@ -187,17 +187,18 @@ class LCInterfaceTranslationManager
         }
           
         $dir = realpath($dir);
-        
-        if (!$dir)
+                
+        if (!$dir || !file_exists($dir))
         {
             return array();
         }        
         
-        $dir .= '/';
-        
 		$files = array();
+		
+        $iter = new DirectoryIterator($dir);
 
-		$iter = new DirectoryIterator($dir);
+        $dir .= '/';
+
 	  	foreach ($iter as $value) 
 		{		    
 		    $name = $value->GetFileName();
