@@ -8,6 +8,16 @@ class Locale
 	const value = 'v';
   	const file = 'f';
 	   
+	const FORMAT_TIME_FULL = 0;
+	const FORMAT_TIME_LONG = 1;
+	const FORMAT_TIME_MEDIUM = 2;
+	const FORMAT_TIME_SHORT = 3;
+
+	const FORMAT_DATE_FULL = 4;
+	const FORMAT_DATE_LONG = 5;
+	const FORMAT_DATE_MEDIUM = 6;
+	const FORMAT_DATE_SHORT = 7;
+            	   
   	private $translationManagerInstance;
   	
 	private $translatorInstance;
@@ -15,6 +25,8 @@ class Locale
 	private $localeInfoInstance;
 	
 	private $localeCode;
+	
+	private $timeFormat;
 
 	private static $currentLocale;
 
@@ -103,6 +115,20 @@ class Locale
 	{
 	  	return $this->translatorInstance;
 	}
+
+	/**
+	 * Returns LCInterfaceTranslator instance
+	 */
+    public function getFormattedTime($time, $format = self::FORMAT_TIME_LONG)
+    {
+        if (!$this->timeFormat)
+        {            
+            if (!@include('I18Nv2/time/' . $this->localeCode . '.php'))
+            {
+                include('I18Nv2/time/en.php');   
+            }
+        }       
+    }
 
 	/**
 	 * Creates locale by locale ID.
