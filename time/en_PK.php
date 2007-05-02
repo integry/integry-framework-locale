@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'DateTimePatterns' => 
   array (
     0 => 'h:mm:ss a z',

@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'eras' => 
   array (
     'abbreviated' => 

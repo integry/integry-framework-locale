@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'dayNames' => 
   array (
     'format' => 

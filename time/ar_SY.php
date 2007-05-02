@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'DateTimeElements:intvector' => 
   array (
     0 => 5,

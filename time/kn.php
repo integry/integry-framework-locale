@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'AmPmMarkers' => 
   array (
     0 => 'ಪೂರ್ವಾಹ್ನ',

@@ -1,4 +1,4 @@
-<? data = array (
+<?php $data = array (
   'weekend:intvector' => 
   array (
     0 => 6,
