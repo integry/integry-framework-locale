@@ -127,7 +127,35 @@ class Locale
             {
                 include('I18Nv2/time/en.php');   
             }
+            
+            $this->timeFormat = $data;
         }       
+
+		$keyMap = array(
+		
+			'yyyy' => 'Y',
+			'd' => 'j',
+			'M' => 'm',
+			'HH' => 'H',
+			'mm' => 'i',
+			'ss' => 's',
+		
+		);
+
+		foreach ($keyMap as $key => $value)
+		{
+			$keyMap[$key] = date($value, $time);
+		}
+	
+		//var_dump($keyMap);
+
+        //print_r($this->timeFormat);
+		$pattern = $this->timeFormat['DateTimePatterns'][$format];
+		$result = strtr($pattern, $keyMap);
+        //var_dump($result);
+
+		return trim($result);
+
     }
 
 	/**
