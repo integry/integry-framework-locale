@@ -11,14 +11,14 @@
   ),
   'DateTimePatterns' => 
   array (
-    0 => 'HH:mm:ss z',
-    1 => 'HH:mm:ss z',
-    2 => 'HH:mm:ss',
-    3 => 'HH:mm',
-    4 => 'EEEE, \'ngày\' dd MMMM \'năm\' yyyy',
-    5 => '\'Ngày\' dd \'tháng\' M \'năm\' yyyy',
-    6 => 'dd-MM-yyyy',
-    7 => 'dd/MM/yyyy',
+    0 => '%G:%i:%s %T',
+    1 => '%G:%i:%s %T',
+    2 => '%G:%i:%s',
+    3 => '%G:%i',
+    4 => '%l, ngày %d %F năm %Y',
+    5 => 'Ngày %d tháng %n năm %Y',
+    6 => '%d-%m-%Y',
+    7 => '%d/%m/%Y',
     8 => '{0} {1}',
   ),
   'dayNames' => 

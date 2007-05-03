@@ -6,14 +6,14 @@
   ),
   'DateTimePatterns' => 
   array (
-    0 => 'h:mm:ss a z',
-    1 => 'h:mm:ss a z',
-    2 => 'h:mm:ss a',
-    3 => 'h:mm a',
-    4 => 'EEEE d MMMM yyyy',
-    5 => 'd MMMM yyyy',
-    6 => 'dd-MM-yyyy',
-    7 => 'd-M-yy',
+    0 => '%g:%i:%s %X %T',
+    1 => '%g:%i:%s %X %T',
+    2 => '%g:%i:%s %X',
+    3 => '%g:%i %X',
+    4 => '%l %j %F %Y',
+    5 => '%j %F %Y',
+    6 => '%d-%m-%Y',
+    7 => '%j-%n-%y',
     8 => '{1} {0}',
   ),
   'weekend:intvector' => 

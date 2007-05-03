@@ -1,14 +1,14 @@
 <?php $data = array (
   'DateTimePatterns' => 
   array (
-    0 => 'h:mm:ss a',
-    1 => 'h:mm:ss a',
-    2 => 'h:mm:ss a',
-    3 => 'h:mm a',
-    4 => 'EEEE፣ dd MMMM መዓልቲ yyyy G',
-    5 => 'dd MMMM yyyy',
-    6 => 'dd-MMM-yy',
-    7 => 'dd/MM/yy',
+    0 => '%g:%i:%s %X',
+    1 => '%g:%i:%s %X',
+    2 => '%g:%i:%s %X',
+    3 => '%g:%i %X',
+    4 => '%l፣ %d %F መዓልቲ %Y %E',
+    5 => '%d %F %Y',
+    6 => '%d-%M-%y',
+    7 => '%d/%m/%y',
     8 => '{1} {0}',
   ),
 ); ?>

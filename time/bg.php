@@ -6,14 +6,14 @@
   ),
   'DateTimePatterns' => 
   array (
-    0 => 'HH:mm:ss z',
-    1 => 'HH:mm:ss',
-    2 => 'HH:mm:ss',
-    3 => 'HH:mm',
-    4 => 'dd MMMM yyyy, EEEE',
-    5 => 'dd MMMM yyyy',
-    6 => 'dd.MM.yyyy',
-    7 => 'dd.MM.yy',
+    0 => '%G:%i:%s %T',
+    1 => '%G:%i:%s',
+    2 => '%G:%i:%s',
+    3 => '%G:%i',
+    4 => '%d %F %Y, %l',
+    5 => '%d %F %Y',
+    6 => '%d.%m.%Y',
+    7 => '%d.%m.%y',
     8 => '{1} {0}',
   ),
   'dayNames' => 

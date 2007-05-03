@@ -11,14 +11,14 @@
   ),
   'DateTimePatterns' => 
   array (
-    0 => '\'klo \'H.mm.ss',
-    1 => 'H:mm:ss v',
-    2 => 'H:mm:ss',
-    3 => 'H:mm',
-    4 => 'EEEE\'na \'d. MMMM\'ta \'yyyy',
-    5 => 'd. MMMM\'ta \'yyyy',
-    6 => 'd.M.yyyy',
-    7 => 'd.M.yyyy',
+    0 => 'klo %H.%i.%s',
+    1 => '%H:%i:%s v',
+    2 => '%H:%i:%s',
+    3 => '%H:%i',
+    4 => '%lna %j. %Fta %Y',
+    5 => '%j. %Fta %Y',
+    6 => '%j.%n.%Y',
+    7 => '%j.%n.%Y',
     8 => '{1} {0}',
   ),
   'dayNames' => 

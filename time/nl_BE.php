@@ -6,14 +6,14 @@
   ),
   'DateTimePatterns' => 
   array (
-    0 => 'HH.mm\' u. \'z',
-    1 => 'HH:mm:ss z',
-    2 => 'HH:mm:ss',
-    3 => 'HH:mm',
-    4 => 'EEEE d MMMM yyyy',
-    5 => 'd MMMM yyyy',
-    6 => 'd-MMM-yyyy',
-    7 => 'd/MM/yyyy',
+    0 => '%G.%i u. %T',
+    1 => '%G:%i:%s %T',
+    2 => '%G:%i:%s',
+    3 => '%G:%i',
+    4 => '%l %j %F %Y',
+    5 => '%j %F %Y',
+    6 => '%j-%M-%Y',
+    7 => '%j/%m/%Y',
     8 => '{1} {0}',
   ),
 ); ?>
