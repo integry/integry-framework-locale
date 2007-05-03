@@ -127,32 +127,74 @@ class Locale
             {
                 include('I18Nv2/time/en.php');   
             }
+            else
+            {
+                // load sub-locale (first available, this will have to be extended in future)
+                if (!isset($data['DateTimePatterns']))
+                {
+                    $d = $data;
+                    foreach (new DirectoryIterator(dirname(dirname(__file__)) . '/I18Nv2/time/') as $file)
+                    {
+                        if (substr($file->getFileName(), 0, 3) == $this->localeCode . '_')
+                        {
+                            include $file->getPath() . '/' . $file->getFileName();
+                            $data = array_merge($d, $data);
+                        }
+                    }
+                }
+            }
             
             $this->timeFormat = $data;
         }       
 
-		$keyMap = array(
-		
-			'yyyy' => 'Y',
-			'd' => 'j',
-			'M' => 'm',
-			'HH' => 'H',
-			'mm' => 'i',
-			'ss' => 's',
-		
-		);
-
-		foreach ($keyMap as $key => $value)
-		{
-			$keyMap[$key] = date($value, $time);
-		}
-	
-		//var_dump($keyMap);
-
-        //print_r($this->timeFormat);
+		$f = 'Y|y|F|M|m|n|d|j|l|D|h|g|G|H|i|s|N|a|T';
+        $values = explode('|', date($f, $time));
+        $keys = explode('|', '%' . str_replace('|', '|%', $f));
+        
+        $map = array_combine($keys, $values);
+        
+        // day names
+        if (isset($this->timeFormat['dayNames']['format']))
+        {
+            $names = $this->timeFormat['dayNames']['format'];
+            $index = $map['%N'] < 7 ? $map['%N'] : 0;
+            
+            foreach (array('D' => 'abbreviated', 'l' => 'wide') as $php => $loc)
+            {
+                if (isset($names[$loc][$index]))
+                {
+                    $map['%' . $php] = $names[$loc][$index];
+                }   
+            }
+        }
+        
+        // month names
+        if (isset($this->timeFormat['monthNames']['format']))
+        {
+            $names = $this->timeFormat['monthNames']['format'];
+            $index = $map['%n'] - 1;
+            
+            foreach (array('M' => 'abbreviated', 'F' => 'wide') as $php => $loc)
+            {
+                if (isset($names[$loc][$index]))
+                {
+                    $map['%' . $php] = $names[$loc][$index];
+                }   
+            }
+        }
+        
+        // AM/PM
+        if (isset($this->timeFormat['AmPmMarkers']))
+        {
+            $index = (int)($map['%a'] == 'pm');
+            $map['%X'] = $this->timeFormat['AmPmMarkers'][$index];
+        }
+        
+        // time zone
+        // $map['%T'] = $map['%T'];
+        
 		$pattern = $this->timeFormat['DateTimePatterns'][$format];
-		$result = strtr($pattern, $keyMap);
-        //var_dump($result);
+		$result = strtr($pattern, $map);
 
 		return trim($result);
 
