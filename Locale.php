@@ -5,9 +5,6 @@ ClassLoader::import('library.I18Nv2.*');
 
 class Locale
 {
-	const value = 'v';
-  	const file = 'f';
-	   
 	const FORMAT_TIME_FULL = 0;
 	const FORMAT_TIME_LONG = 1;
 	const FORMAT_TIME_MEDIUM = 2;
