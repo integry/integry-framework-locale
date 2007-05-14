@@ -267,7 +267,7 @@ class LCInterfaceTranslationManager
 	 */
     public function loadFile($file, $english = false)
     {
-	  	// check if there are no additional definition files
+	  	// check if there are no additional definition files (in a separate directory)
 	  	$addDir = self::$defFileDir . 'en/' . $file;
         $additional = $this->getDefinitionFiles($addDir);
         foreach ($additional as $addnFile)
