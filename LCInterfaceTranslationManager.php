@@ -439,7 +439,8 @@ class LCInterfaceTranslationManager
 			$this->loadCachedFile($this->localeCode . '/' . $langFile);  
 		}
 
-		$fileIndex = count($this->definitionValueFileMap[$langFile]) - 1;
+		$cnt = isset($this->definitionValueFileMap[$langFile]) ? count($this->definitionValueFileMap[$langFile]) : 0;
+		$fileIndex = $cnt - 1;
 
 		if (isset($this->definitionValueFileMap[$langFile]) && isset($this->definitionValueFileMap[$langFile][$fileIndex][$key]))
 		{
@@ -456,6 +457,9 @@ class LCInterfaceTranslationManager
 	 */
 	public function updateValue($langFile, $key, $value)
 	{
+		$defs = $this->getCacheDefs($langFile . '.php', true);
+		$defs[$key] = $value;
+		/*
 		if (!isset($this->definitionValueFileMap[$langFile]))
 		{
 		  	return false;
@@ -473,12 +477,13 @@ class LCInterfaceTranslationManager
 		
 		if (null === $found)
 		{
-		  	return false;
+	  		return false;
 		}		
-		
+				
 		$this->definitionValueFileMap[$langFile][$index][$key] = $value;	  
+		*/
 		$langFilePath = $this->localeCode . '/' . $langFile;
-		$this->saveCacheData($langFilePath, $this->definitionValueFileMap[$langFile][$index]);
+		$this->saveCacheData($langFilePath, $defs);
 		return true;
 	}
 
