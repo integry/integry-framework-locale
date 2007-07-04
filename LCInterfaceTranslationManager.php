@@ -431,7 +431,7 @@ class LCInterfaceTranslationManager
 	 * @param string $key Translation key
 	 * @return string Translation value
 	 */
-	public function getValue($langFile, $key)
+	public function get($langFile, $key)
 	{
 		// load language file
 		if (!isset($this->definitionValueFileMap[$langFile]))
