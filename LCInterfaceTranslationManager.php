@@ -36,12 +36,7 @@ class LCInterfaceTranslationManager
 	{		
 		 return new self($localeCode);
 	}  
-	
-	public function setDefinitions($definitions)
-	{
-	  	$this->definitions = $definitions;
-	}
-	
+
 	public function loadDefinitions($definitions)
 	{
 		if (!is_array($definitions))
@@ -109,15 +104,17 @@ class LCInterfaceTranslationManager
 	public function updateDefinitions()
 	{
 		// get all language definition files
-
-		$files = $this->getDefinitionFiles(self::$defFileDir . $this->localeCode);		
-		
-		// update each respective cache file
-		foreach ($files as $file)
+		foreach (self::$defFileDir as $dir)
 		{
-		  	$relPath = substr($file, strlen(self::$defFileDir));
-		  	$this->updateCacheFile($relPath);
-		}		
+			$files = $this->getDefinitionFiles($dir . $this->localeCode);
+
+			// update each respective cache file
+			foreach ($files as $file)
+			{
+			  	$relPath = substr($file, strlen($dir));
+			  	$this->updateCacheFile($relPath);
+			}
+		}
 	}
 		
 	/**
@@ -127,13 +124,9 @@ class LCInterfaceTranslationManager
 	 */
 	public function setDefinitionFileDir($dir)
 	{
-		if (!is_dir($dir))
+		if (is_dir($dir))
 		{
-		  	return false;
-		}  	
-		else 
-		{
-		  	self::$defFileDir = realpath($dir) . '/';
+		  	self::$defFileDir[] = realpath($dir) . '/';
     	  	return true;
 		}
 	}	
@@ -144,7 +137,7 @@ class LCInterfaceTranslationManager
 	 */
 	public function getDefinitionFileDir()
 	{
-		return self::$defFileDir . $this->localeCode;
+		return self::$defFileDir[0] . $this->localeCode;
 	}	
 	
 	/**
@@ -183,7 +176,7 @@ class LCInterfaceTranslationManager
 	{	  
 	  	if (!$dir)
 	  	{
-            $dir = self::$defFileDir . $this->localeCode;
+            $dir = self::$defFileDir[0] . $this->localeCode;
         }
           
         $dir = realpath($dir);
@@ -232,7 +225,7 @@ class LCInterfaceTranslationManager
 	{
         if ($relPath)
         {
-		  	$file = self::$defFileDir . $this->localeCode . '/' . $file;
+		  	$file = self::$defFileDir[0] . $this->localeCode . '/' . $file;
 		}
 		
 		if (!file_exists($file))
@@ -268,11 +261,11 @@ class LCInterfaceTranslationManager
     public function loadFile($file, $english = false)
     {
 	  	// check if there are no additional definition files (in a separate directory)
-	  	$addDir = self::$defFileDir . 'en/' . $file;
+	  	$addDir = self::$defFileDir[0] . 'en/' . $file;
         $additional = $this->getDefinitionFiles($addDir);
         foreach ($additional as $addnFile)
         {
-            $addnFile = substr($addnFile, strlen(self::$defFileDir . 'en/'));
+            $addnFile = substr($addnFile, strlen(self::$defFileDir[0] . 'en/'));
             $addnFile = substr($addnFile, 0, -4);
             $this->loadFile($addnFile, false);
         }
@@ -459,29 +452,7 @@ class LCInterfaceTranslationManager
 	{
 		$defs = $this->getCacheDefs($langFile . '.php', true);
 		$defs[$key] = $value;
-		/*
-		if (!isset($this->definitionValueFileMap[$langFile]))
-		{
-		  	return false;
-		}
 
-		$found = null;
-
-		foreach ($this->definitionValueFileMap[$langFile] as $index => $file)
-		{
-			if (isset($file[$key]))
-			{
-			  	$found = $index;		  	
-			}
-		}
-		
-		if (null === $found)
-		{
-	  		return false;
-		}		
-				
-		$this->definitionValueFileMap[$langFile][$index][$key] = $value;	  
-		*/
 		$langFilePath = $this->localeCode . '/' . $langFile;
 		$this->saveCacheData($langFilePath, $defs);
 		return true;
@@ -528,14 +499,7 @@ class LCInterfaceTranslationManager
 	 */
 	public function isFileCached($langFile)
 	{
-		$path = $this->getCachedFilePath($langFile); 
-		if (!file_exists($path))
-		{
-		  	return false;
-		} else 
-		{
-			return true;  
-		}
+		return file_exists($this->getCachedFilePath($langFile)); 
 	}
 
 	/**
@@ -545,8 +509,15 @@ class LCInterfaceTranslationManager
 	 */
 	private function getLangFilePath($langFile)
 	{
-		$path = self::$defFileDir . $langFile . '.lng';
-		return file_exists($path) ? $path : false;
+		foreach (self::$defFileDir as $dir)
+		{
+			$path = $dir . $langFile . '.lng';
+
+			if (file_exists($path))
+			{
+				return $path;
+			}
+		}
 	}
 
 	/**

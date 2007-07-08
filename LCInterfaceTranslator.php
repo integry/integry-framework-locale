@@ -38,14 +38,7 @@ class LCInterfaceTranslator implements LCiTranslator
 	{	 
 		$def = $this->translationManager->getDefinition($key);
 
-		if (FALSE !== $def)
-		{
-		  	return $def;
-		} 	
-		else
-		{
-		  	return $key;
-		}
+		return (FALSE !== $def) ? $def : $key;
 	}
 	
 	/**
