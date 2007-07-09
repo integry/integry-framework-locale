@@ -230,7 +230,7 @@ class LCInterfaceTranslationManager
 		
 		if (!file_exists($file))
         {          
-            return false;
+            return array();
         }
 
         $defs = array();
@@ -365,13 +365,15 @@ class LCInterfaceTranslationManager
 		$defFile = self::$defFileDir . $file;
 		$cacheFile = substr($file, 0, -4) . '.php';
 			
-		$cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
-		$defs = $this->getFileDefs($defFile);		
+        $cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
+
+        $defs = $this->getFileDefs($defFile);		
 		
 		if (is_array($cacheDefs))
 		{
 			$defs = array_merge($defs, $cacheDefs);  
 		}		
+
 		$this->saveCacheData($cacheFile, $defs);		
 	}	
 	
