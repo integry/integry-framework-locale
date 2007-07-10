@@ -362,7 +362,7 @@ class LCInterfaceTranslationManager
 
 	public function updateCacheFile($file)
 	{
-		$defFile = self::$defFileDir . $file;
+		$defFile = self::$defFileDir[0] . $file;
 		$cacheFile = substr($file, 0, -4) . '.php';
 			
         $cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
