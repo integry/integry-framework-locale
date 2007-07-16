@@ -20,7 +20,7 @@ class LCInterfaceTranslationManager
 	/**
 	 * Definition file storage directory
 	 */
-	private static $defFileDir;
+	private static $defFileDir = array();
 	  
 	/**
 	 * Cache file storage directory (changed translations)
