@@ -254,7 +254,7 @@ class LCLocaleInfo
 	  
 	  	if (!$this->languageInstance) 
 		{	  	  
-	  	 	require_once('Language.php');
+	  	 	include dirname(__file__) . '/../I18Nv2/Language.php';
 			$this->languageInstance = new I18Nv2_Language($this->localeCode);		    
 		}
 		
@@ -269,7 +269,7 @@ class LCLocaleInfo
 	{	  
 	  	if (!$this->countryInstance) 
 		{	  	  
-	  	 	require_once('I18Nv2/Country.php');
+	  	 	include dirname(__file__) . '/../I18Nv2/Country.php';
 			$this->countryInstance = new I18Nv2_Country($this->localeCode);		    
 		}
 		
@@ -284,7 +284,7 @@ class LCLocaleInfo
 	{	  
 	  	if (!$this->currencyInstance) 
 		{	  	  
-	  	 	require_once('I18Nv2/Currency.php');
+	  	 	include dirname(__file__) . '/../I18Nv2/Currency.php';
 			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);		    
 		}
 		

@@ -35,7 +35,7 @@ class Locale
 	 */
 	private function __construct($localeCode)  
   	{
-	 	include_once('LCLocaleInfo.php');
+	 	include_once(dirname(__file__) . '/LCLocaleInfo.php');
 		$this->localeCode = $localeCode;
 		$this->localeInfoInstance = new LCLocaleInfo($localeCode);
 	}
@@ -116,7 +116,7 @@ class Locale
 	/**
 	 * Returns LCInterfaceTranslator instance
 	 */
-    public function getFormattedTime($time, $format = self::FORMAT_TIME_LONG)
+    public function getFormattedTime($time, $format = null)
     {
         if (!$this->timeFormat)
         {            
@@ -187,14 +187,35 @@ class Locale
             $map['%X'] = $this->timeFormat['AmPmMarkers'][$index];
         }
         
-        // time zone
-        // $map['%T'] = $map['%T'];
+        $res = array();
+        foreach (self::getDateFormats() as $name => $code)
+        {
+            $res[$name] = trim(strtr($this->timeFormat['DateTimePatterns'][$code], $map));
+        }
         
-		$pattern = $this->timeFormat['DateTimePatterns'][$format];
-		$result = strtr($pattern, $map);
+        return !is_null($format) ? $res[$format] : $res;
+    }
 
-		return trim($result);
-
+	private static function getDateFormats()
+	{
+        static $dateTransform = null;
+        
+        if (!$dateTransform)
+        {
+        	$dateTransform = array
+        	(		
+        		'time_full' => Locale::FORMAT_TIME_FULL,
+        		'time_long' => Locale::FORMAT_TIME_LONG,
+        		'time_medium' => Locale::FORMAT_TIME_MEDIUM,
+        		'time_short' => Locale::FORMAT_TIME_SHORT,
+        		'date_full' => Locale::FORMAT_DATE_FULL,
+        		'date_long' => Locale::FORMAT_DATE_LONG,
+        		'date_medium' => Locale::FORMAT_DATE_MEDIUM,
+        		'date_short' => Locale::FORMAT_DATE_SHORT,		
+        	);            
+        }
+        
+        return $dateTransform;
     }
 
 	/**
@@ -204,7 +225,7 @@ class Locale
 	private static function createInstance($localeCode) 
 	{		
 		// verify that such locale exists
-		include_once('LCInterfaceTranslationManager.php');
+		include_once(dirname(__file__) . '/LCInterfaceTranslationManager.php');
 		$translationManager = LCInterfaceTranslationManager::create($localeCode);
 		if (!$translationManager)
 		{
@@ -224,7 +245,7 @@ class Locale
 	 */	
 	private function setTranslationManager(LCInterfaceTranslationManager $manager)
 	{
-		include_once('LCInterfaceTranslator.php');
+		include_once(dirname(__file__) . '/LCInterfaceTranslator.php');
 	 	$this->translationManagerInstance = $manager;
 	 	$this->translatorInstance = new LCInterfaceTranslator($this->localeCode, $this->translationManagerInstance);  
 	}
