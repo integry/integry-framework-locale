@@ -141,6 +141,11 @@ class Locale
                 }
             }
             
+            if (!isset($data['DateTimePatterns']))
+            {
+                include('I18Nv2/time/en.php');
+            }
+            
             $this->timeFormat = $data;
         }       
 
