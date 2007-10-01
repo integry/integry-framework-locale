@@ -58,7 +58,7 @@ class LCInterfaceTranslator implements LCiTranslator
 		$list[] = $this->translate($key);		
 					
 		$list = array_merge($list, split(",", $params));						
-		return call_user_func_array(array($lh, "_"), $list);
+		return stripslashes(call_user_func_array(array($lh, "_"), $list));
 	 }
 	
 	/**
