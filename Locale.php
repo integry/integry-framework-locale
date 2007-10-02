@@ -3,6 +3,11 @@
 ClassLoader::import('library.*');
 ClassLoader::import('library.I18Nv2.*');
 
+/**
+ *
+ * @package library.locale
+ * @author Integry Systems 
+ */
 class Locale
 {
 	const FORMAT_TIME_FULL = 0;

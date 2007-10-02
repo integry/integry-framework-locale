@@ -1,5 +1,10 @@
 <?php
 
+/**
+ *
+ * @package library.locale
+ * @author Integry Systems 
+ */
 class LCInterfaceTranslationManager
 {
 	/**

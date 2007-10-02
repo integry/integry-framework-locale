@@ -2,6 +2,11 @@
 
 require_once('LocaleMaketext.php');
 
+/**
+ *
+ * @package library.locale.maketext
+ * @author Integry Systems 
+ */
 class LCMaketext_lt extends LocaleMaketext
 {  
   	public function quant($args)

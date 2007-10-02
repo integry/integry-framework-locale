@@ -4,8 +4,8 @@
  * Creates a MakeText translation handler instance for required locale
  *
  * @return LocaleMaketext
- * @author Rinalds Uzkalns <rinalds@integry.net>
- * @package locale.maketext
+ * @author Integry Systems
+ * @package library.locale.maketext
  */
 class LCMakeTextFactory
 {
