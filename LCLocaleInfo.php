@@ -76,35 +76,35 @@ class LCLocaleInfo
 	public function getCountryGroups()
 	{
 	    return array(
-	        'africa' => array(
+	        'Africa' => array(
 		        'DZ','AO','BJ','BW','BF','BI','CM','CV','CF','TD','KM','CG','CD','DJ',
 		        'EG','GQ','ER','ET','GA','GM','GH','GN','GW','CI','KE','LS','LR','LY',
 		        'MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC',
 		        'SL','SO','ZA','SD','SZ','TZ','TG','TN','UG','ZM','ZW'
 			),
-			'asia' => array(
+			'Asia' => array(
 		        'AF','BH','BD','BT','BN','MM','KH','CN','TL','IN','ID','IR','IQ','IL',
 		        'JP','JO','KZ','KP','KR','KW','KG','LA','LB','MY','MV','MN','NP','OM',
 		        'PK','PH','QA','','RU','SA','SG','LK','SY','TJ','TH','TR','TM','AE',
 		        'UZ','VN','YE'
 		    ),
-		    'europe' => array(
+		    'Europe' => array(
 		        'AL','AD','AM','AT','AZ','BY','BE','BA','BG','HR','CY','CZ','DK','EE',
 		        'FI','FR','GE','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MK',
 		        'MT','MD','MC','NL','NO','PL','PT','RO','SM','SP','SK','SI','ES','SE',
 		        'CH','UA','GB','VA'
 		    ),
-		    'north america' => array(
+		    'North America' => array(
 				'AG','BS','BB','BZ','CA','CR','CU','DM','SV','GD','GT','HT','HN','JM',
         		'MX','NI','PA','KN','LC','VC','TT','US'
 			),
-			'south america' => array(
+			'South America' => array(
 				'AR','BO','BR','CL','CO','EC','GY','PY','PE','SR','UY','VE'
 			),
-			'oceania' => array(
+			'Oceania' => array(
 			    'AU','FJ','KI','MH','FM','NR','NZ','PW','PG','WS','SB','TO','TV','VU'
 			),
-			'european union' => array(
+			'European Union' => array(
 			    'BE','FR','DE','IT','LU','NL','DK','IE','GB','GR','PT','ES','AT','FI',
 				'SE','CY','CZ','EE','LV','LT','HU','MT','PL','SK','SI','BG','RO'
 			),
