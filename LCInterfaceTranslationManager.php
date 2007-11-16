@@ -132,7 +132,7 @@ class LCInterfaceTranslationManager
 		if (is_dir($dir))
 		{
 		  	self::$defFileDir[] = realpath($dir) . '/';
-    	  	return true;
+		  	return true;
 		}
 	}	
 	
@@ -181,25 +181,25 @@ class LCInterfaceTranslationManager
 	{	  
 	  	if (!$dir)
 	  	{
-            $dir = self::$defFileDir[0] . $this->localeCode;
-        }
-          
-        $dir = realpath($dir);
-                
-        if (!$dir || !file_exists($dir))
-        {
-            return array();
-        }        
-        
+			$dir = self::$defFileDir[0] . $this->localeCode;
+		}
+		  
+		$dir = realpath($dir);
+				
+		if (!$dir || !file_exists($dir))
+		{
+			return array();
+		}		
+		
 		$files = array();
 		
-        $iter = new DirectoryIterator($dir);
+		$iter = new DirectoryIterator($dir);
 
-        $dir .= '/';
+		$dir .= '/';
 
 	  	foreach ($iter as $value) 
-		{		    
-		    $name = $value->GetFileName();
+		{			
+			$name = $value->GetFileName();
 
 			if ($value->isFile() && '.lng' == (substr($name, -4))) 
 			{			 	
@@ -207,7 +207,7 @@ class LCInterfaceTranslationManager
 			}
 			else if($value->isDir() && ($name[0] != '.'))
 			{
-                $files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
+				$files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
 			}
 		}
 
@@ -228,57 +228,57 @@ class LCInterfaceTranslationManager
 	 */
 	public function getFileDefs($file, $relPath = false) 
 	{
-        if ($relPath)
-        {
+		if ($relPath)
+		{
 		  	$file = self::$defFileDir[0] . $this->localeCode . '/' . $file;
 		}
 		
 		if (!file_exists($file))
-        {          
-            return array();
-        }
+		{		  
+			return array();
+		}
 
-        $defs = array();
+		$defs = array();
 
-        $f = fopen($file,'r');
-        while (!feof($f)) 
-		{          
-            $s = chop(fgets($f));
+		$f = fopen($file,'r');
+		while (!feof($f)) 
+		{		  
+			$s = chop(fgets($f));
 
-            if (strlen($s) == 0 || $s{0} == '#')
-            {
+			if (strlen($s) == 0 || $s{0} == '#')
+			{
 			 	continue; 
 			}
 
-            list($key, $value) = explode('=', $s, 2);
-            $defs[$key] = $value;
-        }
-        fclose($f);
-        
-        return $defs;
-    }	   
-    
+			list($key, $value) = explode('=', $s, 2);
+			$defs[$key] = $value;
+		}
+		fclose($f);
+		
+		return $defs;
+	}	   
+	
 	/**
 	 * Adds language definitions from file
 	 * @param string $file File path
 	 * @return bool Status
 	 */
-    public function loadFile($file, $english = false)
-    {
+	public function loadFile($file, $english = false)
+	{
 	  	// check if there are no additional definition files (in a separate directory)
 	  	$addDir = self::$defFileDir[0] . 'en/' . $file;
-        $additional = $this->getDefinitionFiles($addDir);
-        foreach ($additional as $addnFile)
-        {
-            $addnFile = substr($addnFile, strlen(self::$defFileDir[0] . 'en/'));
-            $addnFile = substr($addnFile, 0, -4);
-            $this->loadFile($addnFile, false);
-        }
-        
-        // load English definitions first
+		$additional = $this->getDefinitionFiles($addDir);
+		foreach ($additional as $addnFile)
+		{
+			$addnFile = substr($addnFile, strlen(self::$defFileDir[0] . 'en/'));
+			$addnFile = substr($addnFile, 0, -4);
+			$this->loadFile($addnFile, false);
+		}
+		
+		// load English definitions first
 	  	if (!$english && ('en' != $this->localeCode))
 	  	{
-			$this->loadFile($file, true);    
+			$this->loadFile($file, true);	
 		}
 		 
 		// add locale code to file path
@@ -291,7 +291,7 @@ class LCInterfaceTranslationManager
 		  	// check if language file exists
 		  	if (!$this->getLangFilePath($file))
 		  	{
-			    return false;
+				return false;
 			}
 		  	
 			$this->cacheFile($file);	  
@@ -363,16 +363,16 @@ class LCInterfaceTranslationManager
 	private function getRelCachePath($langFile)
 	{
 		return substr($langFile, strlen(self::$cacheFileDir) + 3, -4);		
-	}			    	
+	}					
 
 	public function updateCacheFile($file)
 	{
 		$defFile = self::$defFileDir[0] . $file;
 		$cacheFile = substr($file, 0, -4) . '.php';
 			
-        $cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
+		$cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
 
-        $defs = $this->getFileDefs($defFile);		
+		$defs = $this->getFileDefs($defFile);		
 		
 		if (is_array($cacheDefs))
 		{
@@ -405,7 +405,7 @@ class LCInterfaceTranslationManager
 		{
 		  	if ('' == $value)
 		  	{
-			    unset($defs[$key]);
+				unset($defs[$key]);
 			}
 		}
 		
@@ -536,10 +536,10 @@ class LCInterfaceTranslationManager
 	{
 		if ('.php' == substr($langFile, -4))
 		{
-            $langFile = substr($langFile, 0, -4);
-        }
-        
-        return self::$cacheFileDir . $langFile . '.php';
+			$langFile = substr($langFile, 0, -4);
+		}
+		
+		return self::$cacheFileDir . $langFile . '.php';
 	}
 
 	/**
@@ -551,15 +551,15 @@ class LCInterfaceTranslationManager
 	{
 	  	if (!$dir || !file_exists($dir))
 	  	{
-		    return array();
+			return array();
 		}
 		
 		$dir = $dir . '/';
 		$files = array();
 		$iter = new DirectoryIterator($dir);
 	  	foreach ($iter as $value) 
-		{		    
-		    $name = $value->GetFileName();
+		{			
+			$name = $value->GetFileName();
 			if ($value->isFile() && '.php' == (substr($name, -4))) 
 			{			 	
 			 	$files[] = $dir . $name;

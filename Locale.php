@@ -19,7 +19,7 @@ class Locale
 	const FORMAT_DATE_LONG = 5;
 	const FORMAT_DATE_MEDIUM = 6;
 	const FORMAT_DATE_SHORT = 7;
-            	   
+				   
   	private $translationManagerInstance;
   	
 	private $translatorInstance;
@@ -33,7 +33,7 @@ class Locale
 	private static $currentLocale;
 
 	private static $instanceMap = array();	
-	    	
+			
 	/**
 	 * Initialize new locale instance
 	 * @param string $localeCode.
@@ -83,7 +83,7 @@ class Locale
 		  	$instance = self::createInstance($localeCode);  	  	
 		  	if (!$instance)
 		  	{
-			    return false;
+				return false;
 			}
 			
 			self::$instanceMap[$localeCode] = $instance;			
@@ -121,112 +121,112 @@ class Locale
 	/**
 	 * Returns LCInterfaceTranslator instance
 	 */
-    public function getFormattedTime($time, $format = null)
-    {
-        if (!$this->timeFormat)
-        {            
-            if (!@include('I18Nv2/time/' . $this->localeCode . '.php'))
-            {
-                include('I18Nv2/time/en.php');   
-            }
-            else
-            {
-                // load sub-locale (first available, this will have to be extended in future)
-                if (!isset($data['DateTimePatterns']))
-                {
-                    $d = $data;
-                    foreach (new DirectoryIterator(dirname(dirname(__file__)) . '/I18Nv2/time/') as $file)
-                    {
-                        if (substr($file->getFileName(), 0, 3) == $this->localeCode . '_')
-                        {
-                            include $file->getPath() . '/' . $file->getFileName();
-                            $data = array_merge($d, $data);
-                        }
-                    }
-                }
-            }
-            
-            if (!isset($data['DateTimePatterns']))
-            {
-                include('I18Nv2/time/en.php');
-            }
-            
-            $this->timeFormat = $data;
-        }       
+	public function getFormattedTime($time, $format = null)
+	{
+		if (!$this->timeFormat)
+		{			
+			if (!@include('I18Nv2/time/' . $this->localeCode . '.php'))
+			{
+				include('I18Nv2/time/en.php');   
+			}
+			else
+			{
+				// load sub-locale (first available, this will have to be extended in future)
+				if (!isset($data['DateTimePatterns']))
+				{
+					$d = $data;
+					foreach (new DirectoryIterator(dirname(dirname(__file__)) . '/I18Nv2/time/') as $file)
+					{
+						if (substr($file->getFileName(), 0, 3) == $this->localeCode . '_')
+						{
+							include $file->getPath() . '/' . $file->getFileName();
+							$data = array_merge($d, $data);
+						}
+					}
+				}
+			}
+			
+			if (!isset($data['DateTimePatterns']))
+			{
+				include('I18Nv2/time/en.php');
+			}
+			
+			$this->timeFormat = $data;
+		}	   
 
 		$f = 'Y|y|F|M|m|n|d|j|l|D|h|g|G|H|i|s|N|a|T';
-        $values = explode('|', date($f, $time));
-        $keys = explode('|', '%' . str_replace('|', '|%', $f));
-        
-        $map = array_combine($keys, $values);
-        
-        // day names
-        if (isset($this->timeFormat['dayNames']['format']))
-        {
-            $names = $this->timeFormat['dayNames']['format'];
-            $index = $map['%N'] < 7 ? $map['%N'] : 0;
-            
-            foreach (array('D' => 'abbreviated', 'l' => 'wide') as $php => $loc)
-            {
-                if (isset($names[$loc][$index]))
-                {
-                    $map['%' . $php] = $names[$loc][$index];
-                }   
-            }
-        }
-        
-        // month names
-        if (isset($this->timeFormat['monthNames']['format']))
-        {
-            $names = $this->timeFormat['monthNames']['format'];
-            $index = $map['%n'] - 1;
-            
-            foreach (array('M' => 'abbreviated', 'F' => 'wide') as $php => $loc)
-            {
-                if (isset($names[$loc][$index]))
-                {
-                    $map['%' . $php] = $names[$loc][$index];
-                }   
-            }
-        }
-        
-        // AM/PM
-        if (isset($this->timeFormat['AmPmMarkers']))
-        {
-            $index = (int)($map['%a'] == 'pm');
-            $map['%X'] = $this->timeFormat['AmPmMarkers'][$index];
-        }
-        
-        $res = array();
-        foreach (self::getDateFormats() as $name => $code)
-        {
-            $res[$name] = trim(strtr($this->timeFormat['DateTimePatterns'][$code], $map));
-        }
-        
-        return !is_null($format) ? $res[$format] : $res;
-    }
+		$values = explode('|', date($f, $time));
+		$keys = explode('|', '%' . str_replace('|', '|%', $f));
+		
+		$map = array_combine($keys, $values);
+		
+		// day names
+		if (isset($this->timeFormat['dayNames']['format']))
+		{
+			$names = $this->timeFormat['dayNames']['format'];
+			$index = $map['%N'] < 7 ? $map['%N'] : 0;
+			
+			foreach (array('D' => 'abbreviated', 'l' => 'wide') as $php => $loc)
+			{
+				if (isset($names[$loc][$index]))
+				{
+					$map['%' . $php] = $names[$loc][$index];
+				}   
+			}
+		}
+		
+		// month names
+		if (isset($this->timeFormat['monthNames']['format']))
+		{
+			$names = $this->timeFormat['monthNames']['format'];
+			$index = $map['%n'] - 1;
+			
+			foreach (array('M' => 'abbreviated', 'F' => 'wide') as $php => $loc)
+			{
+				if (isset($names[$loc][$index]))
+				{
+					$map['%' . $php] = $names[$loc][$index];
+				}   
+			}
+		}
+		
+		// AM/PM
+		if (isset($this->timeFormat['AmPmMarkers']))
+		{
+			$index = (int)($map['%a'] == 'pm');
+			$map['%X'] = $this->timeFormat['AmPmMarkers'][$index];
+		}
+		
+		$res = array();
+		foreach (self::getDateFormats() as $name => $code)
+		{
+			$res[$name] = trim(strtr($this->timeFormat['DateTimePatterns'][$code], $map));
+		}
+		
+		return !is_null($format) ? $res[$format] : $res;
+	}
 
 	private static function getDateFormats()
 	{
-        static $dateTransform = null;
-        
-        if (!$dateTransform)
-        {
-        	$dateTransform = array
-        	(		
-        		'time_full' => Locale::FORMAT_TIME_FULL,
-        		'time_long' => Locale::FORMAT_TIME_LONG,
-        		'time_medium' => Locale::FORMAT_TIME_MEDIUM,
-        		'time_short' => Locale::FORMAT_TIME_SHORT,
-        		'date_full' => Locale::FORMAT_DATE_FULL,
-        		'date_long' => Locale::FORMAT_DATE_LONG,
-        		'date_medium' => Locale::FORMAT_DATE_MEDIUM,
-        		'date_short' => Locale::FORMAT_DATE_SHORT,		
-        	);            
-        }
-        
-        return $dateTransform;
-    }
+		static $dateTransform = null;
+		
+		if (!$dateTransform)
+		{
+			$dateTransform = array
+			(		
+				'time_full' => Locale::FORMAT_TIME_FULL,
+				'time_long' => Locale::FORMAT_TIME_LONG,
+				'time_medium' => Locale::FORMAT_TIME_MEDIUM,
+				'time_short' => Locale::FORMAT_TIME_SHORT,
+				'date_full' => Locale::FORMAT_DATE_FULL,
+				'date_long' => Locale::FORMAT_DATE_LONG,
+				'date_medium' => Locale::FORMAT_DATE_MEDIUM,
+				'date_short' => Locale::FORMAT_DATE_SHORT,		
+			);			
+		}
+		
+		return $dateTransform;
+	}
 
 	/**
 	 * Creates locale by locale ID.

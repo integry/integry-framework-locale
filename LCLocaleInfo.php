@@ -75,37 +75,37 @@ class LCLocaleInfo
 	 */
 	public function getCountryGroups()
 	{
-	    return array(
-	        'Africa' => array(
-		        'DZ','AO','BJ','BW','BF','BI','CM','CV','CF','TD','KM','CG','CD','DJ',
-		        'EG','GQ','ER','ET','GA','GM','GH','GN','GW','CI','KE','LS','LR','LY',
-		        'MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC',
-		        'SL','SO','ZA','SD','SZ','TZ','TG','TN','UG','ZM','ZW'
+		return array(
+			'Africa' => array(
+				'DZ','AO','BJ','BW','BF','BI','CM','CV','CF','TD','KM','CG','CD','DJ',
+				'EG','GQ','ER','ET','GA','GM','GH','GN','GW','CI','KE','LS','LR','LY',
+				'MG','MW','ML','MR','MU','MA','MZ','NA','NE','NG','RW','ST','SN','SC',
+				'SL','SO','ZA','SD','SZ','TZ','TG','TN','UG','ZM','ZW'
 			),
 			'Asia' => array(
-		        'AF','BH','BD','BT','BN','MM','KH','CN','TL','IN','ID','IR','IQ','IL',
-		        'JP','JO','KZ','KP','KR','KW','KG','LA','LB','MY','MV','MN','NP','OM',
-		        'PK','PH','QA','','RU','SA','SG','LK','SY','TJ','TH','TR','TM','AE',
-		        'UZ','VN','YE'
-		    ),
-		    'Europe' => array(
-		        'AL','AD','AM','AT','AZ','BY','BE','BA','BG','HR','CY','CZ','DK','EE',
-		        'FI','FR','GE','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MK',
-		        'MT','MD','MC','NL','NO','PL','PT','RO','SM','SP','SK','SI','ES','SE',
-		        'CH','UA','GB','VA'
-		    ),
-		    'North America' => array(
+				'AF','BH','BD','BT','BN','MM','KH','CN','TL','IN','ID','IR','IQ','IL',
+				'JP','JO','KZ','KP','KR','KW','KG','LA','LB','MY','MV','MN','NP','OM',
+				'PK','PH','QA','','RU','SA','SG','LK','SY','TJ','TH','TR','TM','AE',
+				'UZ','VN','YE'
+			),
+			'Europe' => array(
+				'AL','AD','AM','AT','AZ','BY','BE','BA','BG','HR','CY','CZ','DK','EE',
+				'FI','FR','GE','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MK',
+				'MT','MD','MC','NL','NO','PL','PT','RO','SM','SP','SK','SI','ES','SE',
+				'CH','UA','GB','VA'
+			),
+			'North America' => array(
 				'AG','BS','BB','BZ','CA','CR','CU','DM','SV','GD','GT','HT','HN','JM',
-        		'MX','NI','PA','KN','LC','VC','TT','US'
+				'MX','NI','PA','KN','LC','VC','TT','US'
 			),
 			'South America' => array(
 				'AR','BO','BR','CL','CO','EC','GY','PY','PE','SR','UY','VE'
 			),
 			'Oceania' => array(
-			    'AU','FJ','KI','MH','FM','NR','NZ','PW','PG','WS','SB','TO','TV','VU'
+				'AU','FJ','KI','MH','FM','NR','NZ','PW','PG','WS','SB','TO','TV','VU'
 			),
 			'European Union' => array(
-			    'BE','FR','DE','IT','LU','NL','DK','IE','GB','GR','PT','ES','AT','FI',
+				'BE','FR','DE','IT','LU','NL','DK','IE','GB','GR','PT','ES','AT','FI',
 				'SE','CY','CZ','EE','LV','LT','HU','MT','PL','SK','SI','BG','RO'
 			),
 		);
@@ -222,23 +222,23 @@ class LCLocaleInfo
 			if (!defined('I18Nv2_DATETIME_SHORT'))
 			{
 				/**#@+ Constants **/
-				define('I18Nv2_NUMBER',                     'number');
-				define('I18Nv2_CURRENCY',                   'currency');
-				define('I18Nv2_DATE',                       'date');
-				define('I18Nv2_TIME',                       'time');
-				define('I18Nv2_DATETIME',                   'datetime');
+				define('I18Nv2_NUMBER',					 'number');
+				define('I18Nv2_CURRENCY',				   'currency');
+				define('I18Nv2_DATE',					   'date');
+				define('I18Nv2_TIME',					   'time');
+				define('I18Nv2_DATETIME',				   'datetime');
 				
-				define('I18Nv2_NUMBER_FLOAT' ,              'float');
-				define('I18Nv2_NUMBER_INTEGER' ,            'integer');
+				define('I18Nv2_NUMBER_FLOAT' ,			  'float');
+				define('I18Nv2_NUMBER_INTEGER' ,			'integer');
 				
-				define('I18Nv2_CURRENCY_LOCAL',             'local');
-				define('I18Nv2_CURRENCY_INTERNATIONAL',     'international');
+				define('I18Nv2_CURRENCY_LOCAL',			 'local');
+				define('I18Nv2_CURRENCY_INTERNATIONAL',	 'international');
 				
-				define('I18Nv2_DATETIME_SHORT',             'short');
-				define('I18Nv2_DATETIME_DEFAULT',           'default');
-				define('I18Nv2_DATETIME_MEDIUM',            'medium');
-				define('I18Nv2_DATETIME_LONG',              'long');
-				define('I18Nv2_DATETIME_FULL',              'full');
+				define('I18Nv2_DATETIME_SHORT',			 'short');
+				define('I18Nv2_DATETIME_DEFAULT',		   'default');
+				define('I18Nv2_DATETIME_MEDIUM',			'medium');
+				define('I18Nv2_DATETIME_LONG',			  'long');
+				define('I18Nv2_DATETIME_FULL',			  'full');
 				/**#@-*/
 			}			
 			
@@ -260,7 +260,7 @@ class LCLocaleInfo
 	  	if (!$this->languageInstance) 
 		{	  	  
 	  	 	include_once dirname(__file__) . '/../I18Nv2/Language.php';
-			$this->languageInstance = new I18Nv2_Language($this->localeCode);		    
+			$this->languageInstance = new I18Nv2_Language($this->localeCode);			
 		}
 		
 		return $this->languageInstance;
@@ -275,7 +275,7 @@ class LCLocaleInfo
 	  	if (!$this->countryInstance) 
 		{	  	  
 	  	 	include_once dirname(__file__) . '/../I18Nv2/Country.php';
-			$this->countryInstance = new I18Nv2_Country($this->localeCode);		    
+			$this->countryInstance = new I18Nv2_Country($this->localeCode);			
 		}
 		
 		return $this->countryInstance;
@@ -290,7 +290,7 @@ class LCLocaleInfo
 	  	if (!$this->currencyInstance) 
 		{	  	  
 	  	 	include_once dirname(__file__) . '/../I18Nv2/Currency.php';
-			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);		    
+			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);			
 		}
 		
 		return $this->currencyInstance;

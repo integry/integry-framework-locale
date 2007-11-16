@@ -14,8 +14,8 @@ class LCMakeTextFactory
 	 * @return LCMakeText
 	 */	
   	function create($locale)
-    {    
-      	$classname = 'LCMakeText_' . strtolower($locale);
+	{	
+	  	$classname = 'LCMakeText_' . strtolower($locale);
 		$classfile = dirname(__FILE__) . '/' . $classname . '.php';
 
 	  	if (file_exists($classfile)) 
@@ -30,6 +30,6 @@ class LCMakeTextFactory
 		}
 		
 		return $instance;
-    }
+	}
 } 
 ?>

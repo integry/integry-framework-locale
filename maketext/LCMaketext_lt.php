@@ -10,13 +10,13 @@ require_once('LocaleMaketext.php');
 class LCMaketext_lt extends LocaleMaketext
 {  
   	public function quant($args)
-    {
-        $num   = $args[0];
-        $forms = array_slice($args, 1);
+	{
+		$num   = $args[0];
+		$forms = array_slice($args, 1);
 
-        $_return = "$num ";
-    
-    	if ($num == 0) 
+		$_return = "$num ";
+	
+		if ($num == 0) 
 		{		  
 		  	$_return = iconv("windows-1257", "utf-8", "nër ") . $forms[2];		  			
 		} 
@@ -37,8 +37,8 @@ class LCMaketext_lt extends LocaleMaketext
 		  	$_return .= $forms[1];
 		}  
  
-        return $_return;
-    }    	
+		return $_return;
+	}		
 } 
 
 ?>
