@@ -124,8 +124,9 @@ class Locale
 	public function getFormattedTime($time, $format = null)
 	{
 		if (!$this->timeFormat)
-		{			
-			if (!@include('I18Nv2/time/' . $this->localeCode . '.php'))
+		{
+			$path = ClassLoader::getRealPath('library.I18Nv2.time.' . $this->localeCode) . '.php';
+			if (!file_exists($path) || !include($path))
 			{
 				include('I18Nv2/time/en.php');   
 			}

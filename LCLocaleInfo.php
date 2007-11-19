@@ -290,7 +290,7 @@ class LCLocaleInfo
 	  	if (!$this->currencyInstance) 
 		{	  	  
 	  	 	include_once dirname(__file__) . '/../I18Nv2/Currency.php';
-			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);			
+			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);
 		}
 		
 		return $this->currencyInstance;
