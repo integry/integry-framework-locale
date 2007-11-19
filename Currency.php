@@ -41,7 +41,13 @@ class I18Nv2_Currency extends I18Nv2_CommonList
      */
     function loadLanguage($language)
     {
-        return @include 'I18Nv2/Currency/' . $language . '.php';
+        $path = dirname(__file__) . '/Currency/' . $language . '.php';
+        if (!file_exists($path))
+        {
+        	$path = dirname(__file__) . '/Currency/en.php';
+		}
+		
+        return include $path;
     }
     
     /**

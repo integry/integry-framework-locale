@@ -43,7 +43,13 @@ class I18Nv2_Country extends I18Nv2_CommonList
      */
     function loadLanguage($language)
     {
-        return @include 'I18Nv2/Country/' . $language . '.php';
+        $path = dirname(__file__) . '/Country/' . $language . '.php';
+        if (!file_exists($path))
+        {
+        	$path = dirname(__file__) . '/Country/en.php';
+		}
+		
+        return include $path;
     }
     
     /**
