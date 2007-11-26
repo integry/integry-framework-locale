@@ -120,6 +120,8 @@ class Locale
 
 	/**
 	 * Returns LCInterfaceTranslator instance
+	 *
+	 * @param string $format   Format name (for example, 'date_short')
 	 */
 	public function getFormattedTime($time, $format = null)
 	{
