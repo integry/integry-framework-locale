@@ -3,7 +3,7 @@
 /**
  *
  * @package library.locale
- * @author Integry Systems 
+ * @author Integry Systems
  */
 class LCInterfaceTranslationManager
 {
@@ -11,36 +11,36 @@ class LCInterfaceTranslationManager
 	 * Current locale code (en, lt, ru)
 	 */
   	private $localeCode;
-  	
+
 	/**
 	 * Interface translation definitions
 	 */
-	private $definitions = array();  	
+	private $definitions = array();
 
 	/**
 	 * Definition key => File name mapping
 	 */
-	private $definitionValueFileMap = array();  	
+	private $definitionValueFileMap = array();
 
 	/**
 	 * Definition file storage directory
 	 */
 	private static $defFileDir = array();
-	  
+
 	/**
 	 * Cache file storage directory (changed translations)
 	 */
 	private static $cacheFileDir;
-	  
+
 	private function __construct($localeCode)
 	{
-		$this->localeCode = $localeCode;		
+		$this->localeCode = $localeCode;
 	}
-	
+
 	public static function create($localeCode)
-	{		
+	{
 		 return new self($localeCode);
-	}  
+	}
 
 	public function loadDefinitions($definitions)
 	{
@@ -49,10 +49,10 @@ class LCInterfaceTranslationManager
 		  	return false;
 		}
 
-		$this->definitions = array_merge($this->definitions, $definitions);	  
+		$this->definitions = array_merge($this->definitions, $definitions);
 		return true;
 	}
-	
+
 	/**
 	 * Get all cached definitions
 	 * @param string $localeCode Locale code (E.g. - en, lt, ru)
@@ -61,14 +61,14 @@ class LCInterfaceTranslationManager
 	public function getTranslatedDefinitions($localeCode, $useEnglishDefs = true)
 	{
 		$dir = self::$cacheFileDir . $localeCode;
-		$files = $this->getCachedFiles($dir);		
+		$files = $this->getCachedFiles($dir);
 	  	$definitions = array();
 		foreach ($files as $file)
 		{
 		  	$defs = $this->getCacheDefs($file);
 		  	$definitions = array_merge($definitions, $defs);
 		}
-	  	
+
 		// use English definitions for missing translations
 		if ($localeCode != 'en')
 		{
@@ -80,7 +80,7 @@ class LCInterfaceTranslationManager
 			  	{
 				 	$definitions[$key] = ($useEnglishDefs ? $value : '');
 				}
-			}		  	
+			}
 		}
 
 		return $definitions;
@@ -93,19 +93,19 @@ class LCInterfaceTranslationManager
 	 */
 	public function getDefinition($key)
 	{
-		if (!empty($this->definitions[$key])) 
-		{		  
+		if (!empty($this->definitions[$key]))
+		{
 			return $this->definitions[$key];
-		} 
-		else 
-		{		  
+		}
+		else
+		{
 		  	return false;
-		}	  		
+		}
 	}
-	
+
 	/**
 	 * Checks for newly added default translation definitions and adds them to translations
-	 */	
+	 */
 	public function updateDefinitions()
 	{
 		// get all language definition files
@@ -121,7 +121,7 @@ class LCInterfaceTranslationManager
 			}
 		}
 	}
-		
+
 	/**
 	 * Sets translation file directory
 	 * @param string $dir Directory path
@@ -134,8 +134,8 @@ class LCInterfaceTranslationManager
 		  	self::$defFileDir[] = realpath($dir) . '/';
 		  	return true;
 		}
-	}	
-	
+	}
+
 	/**
 	 * Returns translation file directory
 	 * @return string Directory path
@@ -143,8 +143,8 @@ class LCInterfaceTranslationManager
 	public function getDefinitionFileDir()
 	{
 		return self::$defFileDir[0] . $this->localeCode;
-	}	
-	
+	}
+
 	/**
 	 * Sets translation cache file directory
 	 * @param string $dir Directory path
@@ -152,62 +152,62 @@ class LCInterfaceTranslationManager
 	 */
 	public function setCacheFileDir($dir)
 	{
-		self::$cacheFileDir = $dir . '/'; 
+		self::$cacheFileDir = $dir . '/';
 	}
-	
+
 	/**
 	 * Gets all translations.
 	 * @return array
 	 * @todo strtolower
-	 */	
-	public static function getDefaultDefinitions($dir) 
-	{	  
+	 */
+	public static function getDefaultDefinitions($dir)
+	{
 	  	$files = self::getDefinitionFiles($dir);
 	  	$defs = array();
 		foreach ($files as $file)
 	  	{
-		 	$defs = array_merge($defs, self::getFileDefs($dir .'/' . $file));   
+		 	$defs = array_merge($defs, self::getFileDefs($dir .'/' . $file));
 		}
-		
+
 		return $defs;
-	}	
-	
+	}
+
 	/**
 	 * Gets all translation definition files
 	 * @param string $dir File directory
 	 * @return array List of files
 	 */
-	public function getDefinitionFiles($dir = '') 
-	{	  
+	public function getDefinitionFiles($dir = '')
+	{
 	  	if (!$dir)
 	  	{
 			$dir = self::$defFileDir[0] . $this->localeCode;
 		}
-		  
+
 		$dir = realpath($dir);
-				
+
 		if (!$dir || !file_exists($dir))
 		{
 			return array();
-		}		
-		
+		}
+
 		$files = array();
-		
+
 		$iter = new DirectoryIterator($dir);
 
 		$dir .= '/';
 
-	  	foreach ($iter as $value) 
-		{			
+	  	foreach ($iter as $value)
+		{
 			$name = $value->GetFileName();
 
-			if ($value->isFile() && '.lng' == (substr($name, -4))) 
-			{			 	
+			if ($value->isFile() && '.lng' == (substr($name, -4)))
+			{
 			 	$files[] = $dir . $name;
 			}
 			else if($value->isDir() && ($name[0] != '.'))
 			{
-				$files = array_merge($files, $this->getDefinitionFiles($dir . $name));  	
+				$files = array_merge($files, $this->getDefinitionFiles($dir . $name));
 			}
 		}
 
@@ -217,47 +217,47 @@ class LCInterfaceTranslationManager
 		  	$files[$key] = str_replace(chr(92), '/', $value);
 		}
 
-	 	return $files; 	
+	 	return $files;
 	}
-	
+
 	/**
 	 * Gets all translations from file
 	 * @param string $file File path
 	 * @param bool $relPath Relative path
 	 * @return array Definitions (key => value)
 	 */
-	public function getFileDefs($file, $relPath = false) 
+	public function getFileDefs($file, $relPath = false)
 	{
 		if ($relPath)
 		{
 		  	$file = self::$defFileDir[0] . $this->localeCode . '/' . $file;
 		}
-		
+
 		if (!file_exists($file))
-		{		  
+		{
 			return array();
 		}
 
 		$defs = array();
 
 		$f = fopen($file,'r');
-		while (!feof($f)) 
-		{		  
+		while (!feof($f))
+		{
 			$s = chop(fgets($f));
 
 			if (strlen($s) == 0 || $s{0} == '#')
 			{
-			 	continue; 
+			 	continue;
 			}
 
 			list($key, $value) = explode('=', $s, 2);
 			$defs[$key] = $value;
 		}
 		fclose($f);
-		
+
 		return $defs;
-	}	   
-	
+	}
+
 	/**
 	 * Adds language definitions from file
 	 * @param string $file File path
@@ -274,17 +274,17 @@ class LCInterfaceTranslationManager
 			$addnFile = substr($addnFile, 0, -4);
 			$this->loadFile($addnFile, false);
 		}
-		
+
 		// load English definitions first
 	  	if (!$english && ('en' != $this->localeCode))
 	  	{
-			$this->loadFile($file, true);	
+			$this->loadFile($file, true);
 		}
-		 
+
 		// add locale code to file path
 		$locale = $english ? 'en' : $this->localeCode;
 		$file = $locale . '/' . $file;
-							  
+
 		// check if cached file exists
 		if (!$this->isFileCached($file))
 		{
@@ -293,10 +293,10 @@ class LCInterfaceTranslationManager
 		  	{
 				return false;
 			}
-		  	
-			$this->cacheFile($file);	  
-		}		
-		
+
+			$this->cacheFile($file);
+		}
+
 		// check if default translation file is newer than the cached file and update cached file
 		else if (filemtime($this->getLangFilePath($file)) > filemtime($this->getCachedFilePath($file)))
 		{
@@ -306,7 +306,7 @@ class LCInterfaceTranslationManager
 		$this->loadCachedFile($file);
 		return true;
 	}
-	
+
 	/**
 	 * Load language definitions from cached file
 	 * @param string $filePath File path
@@ -314,7 +314,7 @@ class LCInterfaceTranslationManager
 	 * @return array Definitions
 	 */
 	public function getCacheDefs($filePath, $relativePath = false)
-	{		
+	{
 		if ($relativePath)
 		{
 		  	$filePath = self::$cacheFileDir . $this->localeCode . '/' . $filePath;
@@ -326,26 +326,26 @@ class LCInterfaceTranslationManager
 		}
 
 		if ($filePath && file_exists($filePath))
-		{				
+		{
 			include $filePath;
 
 			$relPath = $this->getRelCachePath($filePath);
 			if (!isset($this->definitionValueFileMap[$relPath]))
 			{
 			  	$this->definitionValueFileMap[$relPath] = array();
-			}				
+			}
 
 			$this->definitionValueFileMap[$relPath][] = $languageDefs;
 
-			return $languageDefs;	
-		} 
-		else 
+			return $languageDefs;
+		}
+		else
 		{
 
 		  	return array();
 		}
 	}
-	
+
 	/**
 	 * Appends language definitions from cached file
 	 * @param string $langFile Relative file path (e.g. - en/Base)
@@ -354,7 +354,7 @@ class LCInterfaceTranslationManager
 	{
 		return $this->loadDefinitions( $this->getCacheDefs($this->getCachedFilePath($langFile)) );
 	}
-	 
+
 	/**
 	 * Returns relative language file path by cache file path
 	 * @param string $langFile Full cache file path
@@ -362,26 +362,26 @@ class LCInterfaceTranslationManager
 	 */
 	private function getRelCachePath($langFile)
 	{
-		return substr($langFile, strlen(self::$cacheFileDir) + 3, -4);		
-	}					
+		return substr($langFile, strlen(self::$cacheFileDir) + 3, -4);
+	}
 
 	public function updateCacheFile($file)
 	{
 		$defFile = self::$defFileDir[0] . $file;
 		$cacheFile = substr($file, 0, -4) . '.php';
-			
+
 		$cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
 
-		$defs = $this->getFileDefs($defFile);		
-		
+		$defs = $this->getFileDefs($defFile);
+
 		if (is_array($cacheDefs))
 		{
-			$defs = array_merge($defs, $cacheDefs);  
-		}		
+			$defs = array_merge($defs, $cacheDefs);
+		}
 
-		$this->saveCacheData($cacheFile, $defs);		
-	}	
-	
+		$this->saveCacheData($cacheFile, $defs);
+	}
+
 	/**
 	 * Creates initial cache file from default definitions file
 	 * @param string $langFile Language definitions cache file path
@@ -408,7 +408,7 @@ class LCInterfaceTranslationManager
 				unset($defs[$key]);
 			}
 		}
-		
+
 		// save
 		$dump = '<?php $languageDefs = ' . var_export($defs, true) . '; ?>';
 		$path = $this->getCachedFilePath($langFile);
@@ -421,10 +421,10 @@ class LCInterfaceTranslationManager
 
 			mkdir($dir, 0777, true);
 		}
-		
-		file_put_contents($path, $dump);				  		  
+
+		file_put_contents($path, $dump);
 	}
-	
+
 	/**
 	 * Return a single translation value by file name and translation key
 	 * @param string $langFile File path
@@ -435,8 +435,8 @@ class LCInterfaceTranslationManager
 	{
 		// load language file
 		if (!isset($this->definitionValueFileMap[$langFile]))
-		{			
-			$this->loadCachedFile($this->localeCode . '/' . $langFile);  
+		{
+			$this->loadCachedFile($this->localeCode . '/' . $langFile);
 		}
 
 		$cnt = isset($this->definitionValueFileMap[$langFile]) ? count($this->definitionValueFileMap[$langFile]) : 0;
@@ -445,15 +445,15 @@ class LCInterfaceTranslationManager
 		if (isset($this->definitionValueFileMap[$langFile]) && isset($this->definitionValueFileMap[$langFile][$fileIndex][$key]))
 		{
 		  	return $this->definitionValueFileMap[$langFile][$fileIndex][$key];
-		}  
+		}
 	}
-	
+
 	/**
 	 * Update a single translation value by file name and translation key
 	 * @param string $langFile Relative file path (without locale code)
 	 * @param string $key Translation key
 	 * @param string $value Translation value
-	 * @return bool Status 
+	 * @return bool Status
 	 */
 	public function updateValue($langFile, $key, $value)
 	{
@@ -490,13 +490,13 @@ class LCInterfaceTranslationManager
 				}
 			}
 		}
-		
+
 		if ('' != $resFile)
 		{
-			return $resFile;  	
+			return $resFile;
 		}
-		
-		return false;	  
+
+		return false;
 	}
 
 	/**
@@ -506,7 +506,7 @@ class LCInterfaceTranslationManager
 	 */
 	public function isFileCached($langFile)
 	{
-		return file_exists($this->getCachedFilePath($langFile)); 
+		return file_exists($this->getCachedFilePath($langFile));
 	}
 
 	/**
@@ -538,13 +538,13 @@ class LCInterfaceTranslationManager
 		{
 			$langFile = substr($langFile, 0, -4);
 		}
-		
+
 		return self::$cacheFileDir . $langFile . '.php';
 	}
 
 	/**
 	 * Returns all cache files in given directory (recursive)
-	 * @param string $dir 
+	 * @param string $dir
 	 * @return array Files
 	 */
 	private function getCachedFiles($dir)
@@ -553,20 +553,20 @@ class LCInterfaceTranslationManager
 	  	{
 			return array();
 		}
-		
+
 		$dir = $dir . '/';
 		$files = array();
 		$iter = new DirectoryIterator($dir);
-	  	foreach ($iter as $value) 
-		{			
+	  	foreach ($iter as $value)
+		{
 			$name = $value->GetFileName();
-			if ($value->isFile() && '.php' == (substr($name, -4))) 
-			{			 	
+			if ($value->isFile() && '.php' == (substr($name, -4)))
+			{
 			 	$files[] = $dir . $name;
 			}
 			else if($value->isDir() && ($name[0] != '.'))
 			{
-				$files = array_merge($files, $this->getCachedFiles($dir . $name));  	
+				$files = array_merge($files, $this->getCachedFiles($dir . $name));
 			}
 		}
 
