@@ -499,6 +499,11 @@ class LCInterfaceTranslationManager
 		return false;
 	}
 
+	public function getLoadedDefinitions()
+	{
+		return $this->definitions;
+	}
+
 	/**
 	 * Determines if the language file has been cached already
 	 * @param string $langFile File path
