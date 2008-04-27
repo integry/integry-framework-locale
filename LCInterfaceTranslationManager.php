@@ -217,6 +217,8 @@ class LCInterfaceTranslationManager
 		  	$files[$key] = str_replace(chr(92), '/', $value);
 		}
 
+		natcasesort($files);
+
 	 	return $files;
 	}
 
