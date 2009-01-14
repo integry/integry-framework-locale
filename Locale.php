@@ -170,7 +170,25 @@ class Locale
 		}
 
 		$res = $this->getFormattedData($map);
+
 		return !is_null($format) ? $res[$format] : $res;
+	}
+
+	public function getMonthName($index, $type = 'abbreviated')
+	{
+		if (!$this->timeFormat)
+		{
+			$this->loadFormatConfig();
+		}
+
+		if (isset($this->timeFormat['monthNames'][$type][$index]))
+		{
+			return $this->timeFormat['monthNames'][$type][$index];
+		}
+		else
+		{
+			return date('M', mktime(1, 1, 1, $index, 1, 2000));
+		}
 	}
 
 	private function getTimeMap($time)

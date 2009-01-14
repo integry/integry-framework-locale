@@ -53,6 +53,11 @@ class LCInterfaceTranslationManager
 		return true;
 	}
 
+	public function setDefinition($key, $value)
+	{
+		$this->definitions[$key] = $value;
+	}
+
 	/**
 	 * Get all cached definitions
 	 * @param string $localeCode Locale code (E.g. - en, lt, ru)
