@@ -235,9 +235,10 @@ class LCInterfaceTranslationManager
 	 */
 	public function getFileDefs($file, $relPath = false)
 	{
+		$or = $file;
 		if ($relPath)
 		{
-		  	$file = self::$defFileDir[0] . $this->localeCode . '/' . $file;
+			$file = $this->getLangFilePath($file);
 		}
 
 		if (!file_exists($file))
@@ -272,12 +273,20 @@ class LCInterfaceTranslationManager
 	 */
 	public function loadFile($file, $english = false)
 	{
-	  	// check if there are no additional definition files (in a separate directory)
-	  	$addDir = self::$defFileDir[0] . 'en/' . $file;
+	  	foreach (self::$defFileDir as $dir)
+	  	{
+	  		$this->fetchFile($this->getRelativePathFromFullPath($dir . $file), $english, $dir);
+		}
+	}
+
+	private function fetchFile($file, $english, $dir)
+	{
+		// check if there are no additional definition files (in a separate directory)
+		$addDir = $dir . 'en/' . $file;
 		$additional = $this->getDefinitionFiles($addDir);
 		foreach ($additional as $addnFile)
 		{
-			$addnFile = substr($addnFile, strlen(self::$defFileDir[0] . 'en/'));
+			$addnFile = substr($addnFile, strlen($dir . 'en/'));
 			$addnFile = substr($addnFile, 0, -4);
 			$this->loadFile($addnFile, false);
 		}
@@ -296,7 +305,7 @@ class LCInterfaceTranslationManager
 		if (!$this->isFileCached($file))
 		{
 		  	// check if language file exists
-		  	if (!$this->getLangFilePath($file))
+		  	if (!$this->getLangFilePath($file, $dir))
 		  	{
 				return false;
 			}
@@ -379,7 +388,7 @@ class LCInterfaceTranslationManager
 
 		$cacheDefs = $this->getCacheDefs(self::$cacheFileDir . $cacheFile);
 
-		$defs = $this->getFileDefs($defFile);
+		$defs = $this->getFileDefs($file, true);
 
 		if (is_array($cacheDefs))
 		{
@@ -521,20 +530,70 @@ class LCInterfaceTranslationManager
 		return file_exists($this->getCachedFilePath($langFile));
 	}
 
-	/**
-	 * Returns full language file path
-	 * @param string $langFile Relative language file path
-	 * @return string File path
-	 */
-	private function getLangFilePath($langFile)
+	public function getRelativePathFromFullPath($fullPath)
 	{
 		foreach (self::$defFileDir as $dir)
 		{
-			$path = $dir . $langFile . '.lng';
-
-			if (file_exists($path))
+			if (substr($fullPath, 0, strlen($dir)) == $dir)
 			{
-				return $path;
+				break;
+			}
+
+			$dir = null;
+		}
+
+		$parts = array_diff(preg_split('/\\//', $fullPath), preg_split('/\\//', self::$defFileDir[0]  . '/' . $this->localeCode));
+		$path = implode('/', $parts);
+
+		return $path;
+	}
+
+	/**
+	 * Returns full base language file path
+	 * @param string $langFile Relative language file path
+	 * @return string File path
+	 */
+	private function getLangFilePath($langFile, $dir = null)
+	{
+		if (substr($langFile, -4) == '.lng')
+		{
+			$langFile = substr($langFile, 0, -4);
+		}
+
+		$directories = is_null($dir) ? self::$defFileDir : array($dir);
+
+		foreach ($directories as $dir)
+		{
+			foreach (array($dir, $dir . $this->localeCode . '/') as $path)
+			{
+				$path .= $langFile . '.lng';
+
+				if (file_exists($path))
+				{
+					return $path;
+				}
+			}
+		}
+
+		if (strpos($langFile, 'module') !== false)
+		{
+			$langFile = preg_replace('/module\/[a-zA-Z0-9]+/', '\\0/application/configuration/language/' . $this->localeCode, $langFile) . '.lng';
+			$langFile = substr($langFile, strpos($langFile, 'module'));
+
+			preg_match('/module\/([a-zA-Z0-9]+)/', $langFile, $match);
+			$module = $match[0];
+
+			foreach (self::$defFileDir as $dir)
+			{
+				if (strpos($dir, $module))
+				{
+					$path = substr($dir, 0, strpos($dir, $module)) . $langFile;
+
+					if (file_exists($path))
+					{
+						return $path;
+					}
+				}
 			}
 		}
 	}
