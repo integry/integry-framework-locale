@@ -281,6 +281,12 @@ class LCInterfaceTranslationManager
 
 	private function fetchFile($file, $english, $dir)
 	{
+		// hmm ....
+		if (substr($file, 0, 8) == 'storage/')
+		{
+			$file = substr($file, 8);
+		}
+
 		// check if there are no additional definition files (in a separate directory)
 		$addDir = $dir . 'en/' . $file;
 		$additional = $this->getDefinitionFiles($addDir);
@@ -304,6 +310,7 @@ class LCInterfaceTranslationManager
 		// check if cached file exists
 		if (!$this->isFileCached($file))
 		{
+		//if (strpos($file, 'module')) { var_dump($file, $dir); }
 		  	// check if language file exists
 		  	if (!$this->getLangFilePath($file, $dir))
 		  	{
@@ -542,7 +549,7 @@ class LCInterfaceTranslationManager
 			$dir = null;
 		}
 
-		$parts = array_diff(preg_split('/\\//', $fullPath), preg_split('/\\//', self::$defFileDir[0]  . '/' . $this->localeCode));
+		$parts = array_diff(split('[/\\]', $fullPath), split('[/\\]', self::$defFileDir[0]  . '/' . $this->localeCode));
 		$path = implode('/', $parts);
 
 		return $path;
@@ -577,24 +584,13 @@ class LCInterfaceTranslationManager
 
 		if (strpos($langFile, 'module') !== false)
 		{
-			$langFile = preg_replace('/module\/[a-zA-Z0-9]+/', '\\0/application/configuration/language/' . $this->localeCode, $langFile) . '.lng';
-			$langFile = substr($langFile, strpos($langFile, 'module'));
+			$locale = preg_match('/^([a-z]{2})\//', $langFile, $match) ? $match[1] : $this->localeCode;
+			$langFile = preg_replace('/module\/[-_a-zA-Z0-9]+/', '\\0/application/configuration/language/' . $locale, $langFile) . '.lng';
+			$langFile = preg_replace('/^[a-z]{2}\//', '', $langFile);
+			$langFile = ClassLoader::getRealPath('.') . $langFile;
+			$langFile = realpath($langFile);
 
-			preg_match('/module\/([a-zA-Z0-9]+)/', $langFile, $match);
-			$module = $match[0];
-
-			foreach (self::$defFileDir as $dir)
-			{
-				if (strpos($dir, $module))
-				{
-					$path = substr($dir, 0, strpos($dir, $module)) . $langFile;
-
-					if (file_exists($path))
-					{
-						return $path;
-					}
-				}
-			}
+			return $langFile;
 		}
 	}
 
