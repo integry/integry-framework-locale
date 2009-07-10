@@ -32,6 +32,8 @@ class LCInterfaceTranslationManager
 	 */
 	private static $cacheFileDir;
 
+	private $loadedFiles = array();
+
 	private function __construct($localeCode)
 	{
 		$this->localeCode = $localeCode;
@@ -273,10 +275,22 @@ class LCInterfaceTranslationManager
 	 */
 	public function loadFile($file, $english = false)
 	{
+	  	if (!empty($this->loadedFiles[$file]))// && ($this->loadedFiles[$file] == 2))
+	  	{
+	  		return;
+		}
+
 	  	foreach (self::$defFileDir as $dir)
 	  	{
 	  		$this->fetchFile($this->getRelativePathFromFullPath($dir . $file), $english, $dir);
 		}
+
+	  	if (!isset($this->loadedFiles[$file]))
+	  	{
+	  		$this->loadedFiles[$file] = 0;
+		}
+
+		$this->loadedFiles[$file]++;
 	}
 
 	private function fetchFile($file, $english, $dir)
@@ -327,6 +341,7 @@ class LCInterfaceTranslationManager
 		}
 
 		$this->loadCachedFile($file);
+
 		return true;
 	}
 
