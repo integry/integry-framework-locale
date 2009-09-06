@@ -25,7 +25,7 @@ class LCInterfaceTranslationManager
 	/**
 	 * Definition file storage directory
 	 */
-	private static $defFileDir = array();
+	public static $defFileDir = array();
 
 	/**
 	 * Cache file storage directory (changed translations)
@@ -293,6 +293,12 @@ class LCInterfaceTranslationManager
 		$this->loadedFiles[$file]++;
 	}
 
+	public function reloadFile($file)
+	{
+		unset($this->loadedFiles[$file]);
+		return $this->loadFile($file);
+	}
+
 	private function fetchFile($file, $english, $dir)
 	{
 		// hmm ....
@@ -321,6 +327,8 @@ class LCInterfaceTranslationManager
 		$locale = $english ? 'en' : $this->localeCode;
 		$file = $locale . '/' . $file;
 
+		$langFile = $this->getLangFilePath($file);
+
 		// check if cached file exists
 		if (!$this->isFileCached($file))
 		{
@@ -335,7 +343,7 @@ class LCInterfaceTranslationManager
 		}
 
 		// check if default translation file is newer than the cached file and update cached file
-		else if (filemtime($this->getLangFilePath($file)) > filemtime($this->getCachedFilePath($file)))
+		else if (file_exists($langFile) && (filemtime($langFile) > filemtime($this->getCachedFilePath($file))))
 		{
 			$this->updateCacheFile($file . '.lng');
 		}
