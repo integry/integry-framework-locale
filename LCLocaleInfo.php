@@ -61,7 +61,7 @@ class LCLocaleInfo
 	 * Gets array of country names.
 	 * @return array
 	 */
-	public function getAllCountries()
+	public function getAllCountries($first = null)
 	{
 		$countries = $this->getCountryInstance()->getAllCodes();
 
@@ -71,6 +71,14 @@ class LCLocaleInfo
 		}
 
 	  	asort($countries);
+
+	  	if ($first)
+	  	{
+	  		$firstCountry = array_intersect_key(array($first => $countries[$first]), $countries);
+	  		$rest = array_diff_key($countries, array($first => ''));
+	  		$countries = array_merge($firstCountry, $rest);
+		}
+
 		return $countries;
 	}
 
