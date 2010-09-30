@@ -571,8 +571,8 @@ class LCInterfaceTranslationManager
 
 			$dir = null;
 		}
-
-		$parts = array_diff(split('[/\\]', $fullPath), split('[/\\]', self::$defFileDir[0]  . '/' . $this->localeCode));
+		// was split('[/\\]', $fullPath); but split() is deprecated
+		$parts = array_diff(preg_split('/\/|\\\\/', $fullPath), preg_split('/\/|\\\\/', self::$defFileDir[0]  . '/' . $this->localeCode));
 		$path = implode('/', $parts);
 
 		return $path;
