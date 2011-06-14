@@ -308,13 +308,16 @@ class LCInterfaceTranslationManager
 		}
 
 		// check if there are no additional definition files (in a separate directory)
-		$addDir = $dir . 'en/' . $file;
-		$additional = $this->getDefinitionFiles($addDir);
-		foreach ($additional as $addnFile)
+		if ($this->getLangFilePath($file, $dir))
 		{
-			$addnFile = substr($addnFile, strlen($dir . 'en/'));
-			$addnFile = substr($addnFile, 0, -4);
-			$this->loadFile($addnFile, false);
+			$addDir = $dir . 'en/' . $file;
+			$additional = $this->getDefinitionFiles($addDir);
+			foreach ($additional as $addnFile)
+			{
+				$addnFile = substr($addnFile, strlen($dir . 'en/'));
+				$addnFile = substr($addnFile, 0, -4);
+				$this->loadFile($addnFile, false);
+			}
 		}
 
 		// load English definitions first
