@@ -1,7 +1,7 @@
 <?php
 
 ClassLoader::import('library.*');
-ClassLoader::import('library.I18Nv2.*');
+ClassLoader::import('library.locale.I18Nv2.*');
 
 /**
  *
@@ -211,7 +211,7 @@ class Locale
 
 	private function loadFormatConfig()
 	{
-		$path = ClassLoader::getRealPath('library.I18Nv2.time.' . $this->localeCode) . '.php';
+		$path = ClassLoader::getRealPath('library.locale.I18Nv2.time.' . $this->localeCode) . '.php';
 		if (!file_exists($path) || !include($path))
 		{
 			include('I18Nv2/time/en.php');
@@ -222,7 +222,7 @@ class Locale
 			if (!isset($data['DateTimePatterns']))
 			{
 				$d = $data;
-				foreach (new DirectoryIterator(dirname(dirname(__file__)) . '/I18Nv2/time/') as $file)
+				foreach (new DirectoryIterator(dirname(__file__) . '/I18Nv2/time/') as $file)
 				{
 					if (substr($file->getFileName(), 0, 3) == $this->localeCode . '_')
 					{
@@ -235,7 +235,7 @@ class Locale
 
 		if (!isset($data['DateTimePatterns']))
 		{
-			include('I18Nv2/time/en.php');
+			include dirname(__file__) . '/I18Nv2/time/en.php';
 		}
 
 		$this->timeFormat = $data;
