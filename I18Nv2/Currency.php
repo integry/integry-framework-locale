@@ -15,16 +15,16 @@
 
 /**
  * I18Nv2::Currency
- * 
+ *
  * @package     I18Nv2
  * @category    Internationalization
  */
 
-require_once 'I18Nv2/CommonList.php';
+require_once dirname(__file__) . '/CommonList.php';
 
 /**
  * I18Nv2_Currency
- * 
+ *
  * @author      Michael Wallner <mike@php.net>
  * @version     $Revision: 1.1 $
  * @access      public
@@ -46,10 +46,10 @@ class I18Nv2_Currency extends I18Nv2_CommonList
         {
         	$path = dirname(__file__) . '/Currency/en.php';
 		}
-		
+
         return include $path;
     }
-    
+
     /**
      * Change case of code key
      *

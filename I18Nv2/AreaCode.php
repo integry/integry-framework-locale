@@ -15,28 +15,28 @@
 
 /**
  * I18Nv2::AreaCode
- * 
+ *
  * @package     I18Nv2
  * @category    Internationalization
  */
 
-require_once 'I18Nv2/CommonList.php';
+require_once dirname(__file__) . '/CommonList.php';
 
 /**
  * I18Nv2_AreaCode
- * 
+ *
  * List of two letter country code to international area code mapping.
- * 
- * @author      Michael Wallner <mike@php.net> 
+ *
+ * @author      Michael Wallner <mike@php.net>
  * @version     $Revision: 1.5 $
- * @access      public 
+ * @access      public
  * @package     I18Nv2
  */
 class I18Nv2_AreaCode extends I18Nv2_CommonList
 {
     /**
      * Codes
-     * 
+     *
      * @access  protected
      * @var     array
      */
@@ -251,9 +251,9 @@ class I18Nv2_AreaCode extends I18Nv2_CommonList
 
     /**
      * Load Language
-     * 
+     *
      * Does nothing.
-     * 
+     *
      * @access  public
      * @return  bool true
      * @param   string  $lang
@@ -262,10 +262,10 @@ class I18Nv2_AreaCode extends I18Nv2_CommonList
     {
         return true;
     }
-    
+
     /**
      * Change Key Case
-     * 
+     *
      * @access  protected
      * @return  string
      * @param   string  $key
@@ -274,13 +274,13 @@ class I18Nv2_AreaCode extends I18Nv2_CommonList
     {
         return strToUpper($key);
     }
-    
+
     /**
      * Merge Country
-     * 
+     *
      * Merge this list with an I18Nv2_Country list to a new I18Nv2_CommonList,
      * where the international area codes map to the full country name.
-     * 
+     *
      * @access  public
      * @return  object  I18Nv2_CommonList
      * @param   object  $country I18Nv2_Country
@@ -288,23 +288,23 @@ class I18Nv2_AreaCode extends I18Nv2_CommonList
     function &mergeCountry(&$country)
     {
         $list = &new I18Nv2_CommonList(
-            $country->getLanguage(), 
+            $country->getLanguage(),
             $encoding = $country->getEncoding()
         );
-        
+
         $country->setEncoding('UTF-8');
         $ctys = $country->getAllCodes();
         $acds = $this->getAllCodes();
         $country->setEncoding($encoding);
-        
+
         $uniq = array_intersect(array_keys($acds), array_keys($ctys));
-        
+
         foreach ($uniq as $code) {
             $list->codes[$acds[$code]] = $ctys[$code];
         }
-        
+
         return $list;
     }
-    
+
 }
 ?>

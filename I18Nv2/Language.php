@@ -15,18 +15,18 @@
 
 /**
  * I18Nv2::Language
- * 
+ *
  * @package     I18Nv2
  * @category    Internationalization
  */
 
-require_once 'CommonList.php';
+require_once dirname(__file__) . '/CommonList.php';
 
 /**
  * I18Nv2_Language
- * 
+ *
  * List of ISO-639-1 two letter language code to language name mapping.
- * 
+ *
  * @author      Michael Wallner <mike@php.net>
  * @version     $Revision: 1.8 $
  * @package     I18Nv2
@@ -42,12 +42,12 @@ class I18Nv2_Language extends I18Nv2_CommonList
      * @param   string  $language
      */
     function loadLanguage($language)
-    {        
+    {
 		$langFile = dirname(__file__) . '/Language/' . $language . '.php';
 		if (file_exists($langFile))
 		{
-			return include $langFile;  
-		} 
+			return include $langFile;
+		}
 		else
 		{
 		  	include 'Language/en.php';

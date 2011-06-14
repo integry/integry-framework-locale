@@ -1,10 +1,10 @@
 <?php $data = array (
-  'DateTimeElements:intvector' => 
+  'DateTimeElements:intvector' =>
   array (
     0 => 2,
     1 => 1,
   ),
-  'DateTimePatterns' => 
+  'DateTimePatterns' =>
   array (
     0 => '%G:%i:%s %T',
     1 => '%G:%i:%s %T',
@@ -12,15 +12,15 @@
     3 => '%G:%i',
     4 => '%l, %Y. gada %j. %F',
     5 => '%Y. gada %j. %F',
-    6 => '%Y.%j.%n',
-    7 => '%y.%j.%n',
+    6 => '%d.%m.%Y',
+    7 => '%d.%m.%Y',
     8 => '{1} {0}',
   ),
-  'dayNames' => 
+  'dayNames' =>
   array (
-    'format' => 
+    'format' =>
     array (
-      'abbreviated' => 
+      'abbreviated' =>
       array (
         0 => 'Sv',
         1 => 'P',
@@ -30,7 +30,7 @@
         5 => 'Pk',
         6 => 'S',
       ),
-      'wide' => 
+      'wide' =>
       array (
         0 => 'svētdiena',
         1 => 'pirmdiena',
@@ -42,19 +42,19 @@
       ),
     ),
   ),
-  'eras' => 
+  'eras' =>
   array (
-    'abbreviated' => 
+    'abbreviated' =>
     array (
       0 => 'pmē',
       1 => 'mē',
     ),
   ),
-  'monthNames' => 
+  'monthNames' =>
   array (
-    'format' => 
+    'format' =>
     array (
-      'abbreviated' => 
+      'abbreviated' =>
       array (
         0 => 'Jan',
         1 => 'Feb',
@@ -69,7 +69,7 @@
         10 => 'Nov',
         11 => 'Dec',
       ),
-      'wide' => 
+      'wide' =>
       array (
         0 => 'janvāris',
         1 => 'februāris',
