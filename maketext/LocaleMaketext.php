@@ -82,10 +82,10 @@ class LocaleMaketext {
 	function &factory ($baseclass = __CLASS__, $locale = '')
 	{
 		$l10nclassname = "${baseclass}_${locale}";
-				
+
 		if (!class_exists ($l10nclassname)) {
 			$l10nclassname = $baseclass;
-		}		
+		}
 		$l10nclass = new $l10nclassname;
 		return $l10nclass;
 	}
@@ -223,7 +223,7 @@ class LocaleMaketext {
 	 *
 	 * @access public
 	 * @param  $msgid   string  message id for message lookup
-	 * @return $msgid   string  
+	 * @return $msgid   string
 	 *
 	 */
 	function fetch_msg($msgid)
@@ -429,9 +429,9 @@ function boo($args) { print_r($args); exit;}
 		$code[] = ';';
 //		$func_code = nl2br(htmlspecialchars(implode($code, "\n")));
 //		ob_clean();echo "FUNCTION:\n$func_code\n";  exit;
-		return create_function('&$locale, $args', implode($code, "\n"));		
+		return create_function('&$locale, $args', implode($code, "\n"));
 	}
-	
+
 	/**
 	 * raises a PEAR_ERROR_DIE PEAR_Error about a Syntax Error in a
 	 * Maketext message.  Points roughly to the part of the string where
@@ -439,20 +439,22 @@ function boo($args) { print_r($args); exit;}
 	 *
 	 * @access private
 	 */
+/*
 	function _die_pointing($msg, $chunk, $error)
 	{
 		return $this->raiseError(
 			"Locale_Maketext Syntax Error: $error in ".
-			"message \"$msg\" near \"$chunk\"\n", 
+			"message \"$msg\" near \"$chunk\"\n",
 			LOCALE_MAKETEXT_ERROR_COMPILE,
 			PEAR_ERROR_DIE);
 	}
+*/
 
-#	function _die_pointing($msg, $chunk, $error)
-#	{
-#		die ("Locale_Maketext Syntax Error: ".
-#			 "$error in message \"$msg\" near \"$chunk\"\n");
-#	}
+	function _die_pointing($msg, $chunk, $error)
+	{
+		die ("Locale_Maketext Syntax Error: ".
+			 "$error in message \"$msg\" near \"$chunk\"\n");
+	}
 }
 
 ?>

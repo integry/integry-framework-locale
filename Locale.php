@@ -185,6 +185,10 @@ class Locale
 		{
 			return $this->timeFormat['monthNames'][$type][$index];
 		}
+		else if (isset($this->timeFormat['monthNames']['format'][$type][$index]))
+		{
+			return $this->timeFormat['monthNames']['format'][$type][$index];
+		}
 		else
 		{
 			return date('M', mktime(1, 1, 1, $index, 1, 2000));
@@ -212,6 +216,7 @@ class Locale
 	private function loadFormatConfig()
 	{
 		$path = ClassLoader::getRealPath('library.locale.I18Nv2.time.' . $this->localeCode) . '.php';
+
 		if (!file_exists($path) || !include($path))
 		{
 			include('I18Nv2/time/en.php');
