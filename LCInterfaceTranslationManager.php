@@ -1,8 +1,10 @@
 <?php
 
+namespace locale;
+
 /**
  *
- * @package library.locale
+ * @package library/locale
  * @author Integry Systems
  */
 class LCInterfaceTranslationManager
@@ -613,7 +615,7 @@ class LCInterfaceTranslationManager
 			$locale = preg_match('/^([a-z]{2})\//', $langFile, $match) ? $match[1] : $this->localeCode;
 			$langFile = preg_replace('/module\/[-_a-zA-Z0-9]+/', '\\0/application/configuration/language/' . $locale, $langFile) . '.lng';
 			$langFile = preg_replace('/^[a-z]{2}\//', '', $langFile);
-			$langFile = ClassLoader::getRealPath('.') . $langFile;
+			$langFile = $this->config->getPath('.') . $langFile;
 			$langFile = realpath($langFile);
 
 			return $langFile;

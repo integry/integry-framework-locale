@@ -1,8 +1,10 @@
 <?php
 
+namespace locale;
+
 /**
  *
- * @package library.locale
+ * @package library/locale
  * @author Integry Systems
  */
 class LCLocaleInfo

@@ -1,11 +1,10 @@
 <?php
 
-ClassLoader::import('library.*');
-ClassLoader::import('library.locale.I18Nv2.*');
+namespace locale;
 
 /**
  *
- * @package library.locale
+ * @package library/locale
  * @author Integry Systems
  */
 class Locale
@@ -215,7 +214,7 @@ class Locale
 
 	private function loadFormatConfig()
 	{
-		$path = ClassLoader::getRealPath('library.locale.I18Nv2.time.' . $this->localeCode) . '.php';
+		$path = $this->config->getPath('library/locale.I18Nv2.time/' . $this->localeCode) . '.php';
 
 		if (!file_exists($path) || !include($path))
 		{

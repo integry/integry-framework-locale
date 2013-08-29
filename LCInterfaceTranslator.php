@@ -1,10 +1,12 @@
 <?php
 
+namespace locale;
+
 include_once('LCiTranslator.php');
 
 /**
  *
- * @package library.locale
+ * @package library/locale
  * @author Integry Systems
  */
 class LCInterfaceTranslator implements LCiTranslator
