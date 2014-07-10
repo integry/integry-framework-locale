@@ -7,7 +7,7 @@ namespace locale;
  * @package library/locale
  * @author Integry Systems
  */
-class Locale
+class Locale extends \Phalcon\DI\Injectable
 {
 	const FORMAT_TIME_FULL = 0;
 	const FORMAT_TIME_LONG = 1;
@@ -37,11 +37,12 @@ class Locale
 	 * Initialize new locale instance
 	 * @param string $localeCode.
 	 */
-	private function __construct($localeCode)
+	private function __construct($localeCode, \Phalcon\DI\FactoryDefault $di)
   	{
 	 	include_once(dirname(__file__) . '/LCLocaleInfo.php');
 		$this->localeCode = $localeCode;
 		$this->localeInfoInstance = new LCLocaleInfo($localeCode);
+		$this->setDI($di);
 	}
 
 	/**
@@ -75,11 +76,11 @@ class Locale
 	 * Gets locale instance by its code. Flyweight pattern is used, to load data just once.
 	 * @param $localeCode
 	 */
-	public static function getInstance($localeCode)
+	public static function getInstance($localeCode, \Phalcon\DI\FactoryDefault $di)
 	{
 	  	if(!isset(self::$instanceMap[$localeCode]))
 		{
-		  	$instance = self::createInstance($localeCode);
+		  	$instance = self::createInstance($localeCode, $di);
 		  	if (!$instance)
 		  	{
 				return false;
@@ -196,6 +197,10 @@ class Locale
 
 	private function getTimeMap($time)
 	{
+		if (!is_numeric($time))
+		{
+			$time = strtotime($time);
+		}
 		$f = 'Y|y|F|M|m|n|d|j|l|D|h|g|G|H|i|s|N|a|T';
 		$values = explode('|', date($f, $time));
 		$keys = explode('|', '%' . str_replace('|', '|%', $f));
@@ -271,7 +276,7 @@ class Locale
 	 * Creates locale by locale ID.
 	 * @param string $localeCode E.g. "en", "lt", "ru"
 	 */
-	private static function createInstance($localeCode)
+	private static function createInstance($localeCode, $di)
 	{
 		// verify that such locale exists
 		include_once(dirname(__file__) . '/LCInterfaceTranslationManager.php');
@@ -281,7 +286,7 @@ class Locale
 			return false;
 		}
 
-		$instance = new Locale($localeCode);
+		$instance = new Locale($localeCode, $di);
 
 		$instance->setTranslationManager($translationManager);
 

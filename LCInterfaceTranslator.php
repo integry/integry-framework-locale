@@ -78,7 +78,7 @@ class LCInterfaceTranslator implements LCiTranslator
 	  	if (!$this->makeTextInstance)
 		{
 			require_once('maketext/LCMakeTextFactory.php');
-			$inst = LCMakeTextFactory::create($this->localeCode);
+			$inst = \LCMakeTextFactory::create($this->localeCode);
 
 			if ($inst)
 			{

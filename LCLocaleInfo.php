@@ -156,7 +156,7 @@ class LCLocaleInfo
 	{
 	  	if (!$this->originalNames)
 	  	{
-			include dirname(__file__).'/I18Nv2/Language/original.php';
+			include_once dirname(__file__).'/I18Nv2/Language/original.php';
 			$this->originalNames = $names;
 		}
 
@@ -176,7 +176,7 @@ class LCLocaleInfo
 	 */
 	public function getAllCurrencies()
 	{
-		include dirname(__file__).'/I18Nv2/Currency/activeCurrencies.php';
+		include_once dirname(__file__).'/I18Nv2/Currency/activeCurrencies.php';
 	  	$currencyCodes = $this->getCurrencyInstance()->getAllCodes();
 	  	return array_intersect_key($currencyCodes, $activeCurrencies);
 	}
@@ -258,7 +258,7 @@ class LCLocaleInfo
 				/**#@-*/
 			}
 
-			include dirname(__file__) . '/I18Nv2/Locale/en.php';
+			include_once dirname(__file__) . '/I18Nv2/Locale/en.php';
 			$file = dirname(__file__) . '/I18Nv2/Locale/' . $this->localeCode . '.php';
 			if (file_exists($file))
 			{
@@ -276,7 +276,7 @@ class LCLocaleInfo
 	  	if (!$this->languageInstance)
 		{
 	  	 	include_once dirname(__file__) . '/I18Nv2/Language.php';
-			$this->languageInstance = new I18Nv2_Language($this->localeCode);
+			$this->languageInstance = new \I18Nv2_Language($this->localeCode);
 		}
 
 		return $this->languageInstance;
@@ -291,7 +291,7 @@ class LCLocaleInfo
 	  	if (!$this->countryInstance)
 		{
 	  	 	include_once dirname(__file__) . '/I18Nv2/Country.php';
-			$this->countryInstance = new I18Nv2_Country($this->localeCode);
+			$this->countryInstance = new \I18Nv2_Country($this->localeCode);
 		}
 
 		return $this->countryInstance;
@@ -306,7 +306,7 @@ class LCLocaleInfo
 	  	if (!$this->currencyInstance)
 		{
 	  	 	include_once dirname(__file__) . '/I18Nv2/Currency.php';
-			$this->currencyInstance = new I18Nv2_Currency($this->localeCode);
+			$this->currencyInstance = new \I18Nv2_Currency($this->localeCode);
 		}
 
 		return $this->currencyInstance;
